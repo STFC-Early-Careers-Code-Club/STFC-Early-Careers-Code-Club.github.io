@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import ApexChart, { type VueApexChartsComponentProps } from 'vue3-apexcharts'
 
-const { givenTalks } = await useTalks()
+const { pastTalks } = await useTalks()
 
 const scoreboard = computed(() => {
-  const speakerScoreMap = givenTalks.value?.reduce((acc, talk) => {
+  const speakerScoreMap = pastTalks.value?.reduce((acc, talk) => {
     acc[talk.speaker] = (acc[talk.speaker] || 0) + 1
     return acc
   }, {} as Record<string, number>)
@@ -20,14 +20,14 @@ const scoreboard = computed(() => {
 })
 
 const allDates = computed(() => {
-  if (!givenTalks.value) return []
-  const dates = givenTalks.value.map((t) => t.date)
+  if (!pastTalks.value) return []
+  const dates = pastTalks.value.map((t) => t.date)
   dates.sort((a, b) => a.getTime() - b.getTime())
   return dates
 })
 
 const series = computed<number[]>(() => {
-  const talks = givenTalks.value
+  const talks = pastTalks.value
   if (!talks) return []
 
   const counts = new Map<string, number>()
@@ -40,7 +40,7 @@ const series = computed<number[]>(() => {
 })
 
 const labels = computed<string[]>(() => {
-  const talks = givenTalks.value
+  const talks = pastTalks.value
   if (!talks) return []
 
   return Array.from(new Set(talks.map(t => t.speaker)))

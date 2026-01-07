@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { givenTalks, upcomingTalks } = await useTalks()
+const { pastTalks, upcomingTalks } = await useTalks()
 </script>
 
 <template>
@@ -13,9 +13,9 @@ const { givenTalks, upcomingTalks } = await useTalks()
       <TalkTable v-if="upcomingTalks" :talks="upcomingTalks.toReversed()" />
     </template>
 
-    <template v-if="givenTalks && givenTalks.length">
-      <h2>Given Talks</h2>
-      <TalkTable v-if="givenTalks" :talks="givenTalks" />
+    <template v-if="pastTalks && pastTalks.length">
+      <h2>Past Talks</h2>
+      <TalkTable v-if="pastTalks" :talks="pastTalks" />
     </template>
   </div>
 </template>

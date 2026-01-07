@@ -12,7 +12,7 @@ export async function useTalks() {
 
   const now = useNow()
 
-  const givenTalks = computed(() => {
+  const pastTalks = computed(() => {
     return talks.value?.filter(talk => talk.date <= now.value)
   })
 
@@ -22,7 +22,7 @@ export async function useTalks() {
 
   return {
     talks,
-    givenTalks,
+    pastTalks,
     upcomingTalks
   }
 }

@@ -23,11 +23,13 @@ function goToTalk(talk: { title: string; speaker: string; date: Date; path: stri
         <th>Speaker</th>
         <th>Date</th>
       </tr>
+    </thead>
+    <tbody>
       <tr v-for="talk in talks" :key="talk.title" @click="goToTalk(talk)" class="cursor-pointer hover:underline">
         <td>{{ talk.title }}</td>
         <td>{{ talk.speaker }}</td>
         <td>{{ talk.date.toLocaleDateString() }}</td>
       </tr> 
-    </thead>
+    </tbody>
   </table>
 </template>

@@ -1,7 +1,8 @@
 export async function useTalks() {
-  const { data: rawTalks } = await useAsyncData('talks-list', () => {
-    return queryCollection('talks').all()
-  })
+  const { data: rawTalks } = await useAsyncData(
+    'talks-list',
+    () => queryCollection('talks').all()
+  )
 
   const talks = computed(() => {
     return rawTalks.value?.map(talk => ({

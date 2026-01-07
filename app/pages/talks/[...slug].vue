@@ -2,7 +2,7 @@
 const route = useRoute()
 
 const { data: page } = await useAsyncData('page-' + route.path, () => {
-  return queryCollection('pages').path(route.path).first()
+  return queryCollection('talks').path(route.path).first()
 })
 
 if (!page.value) {
@@ -12,9 +12,9 @@ if (!page.value) {
 
 <template>
   <article class="prose prose-neutral dark:prose-invert container mx-auto">
-    <ContentRenderer
-      v-if="page"
-      :value="page"
-    />
+    <template v-if="page">
+      <h1>{{ page.title }}</h1>
+      <ContentRenderer :value="page" />
+    </template>
   </article>
 </template>

@@ -4,7 +4,10 @@ export default defineContentConfig({
   collections: {
     pages: defineCollection({
       type: 'page',
-      source: '**/*.md',
+      source: {
+        include: '**/*.md',
+        exclude: ['talks/**']
+      }
     }),
 
     talks: defineCollection({

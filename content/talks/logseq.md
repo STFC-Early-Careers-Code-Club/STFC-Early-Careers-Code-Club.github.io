@@ -1,5 +1,5 @@
 ---
-title: Spack
+title: LogSeq
 speaker: Kiran Jonathan
-date: 2025-10-08
+date: 2025-11-05
 ---

@@ -6,9 +6,11 @@ const { givenTalks, upcomingTalks } = await useTalks()
   <div class="w-full">
     <h1>Talks</h1>
 
+    <p><NuxtLink to="/speaker-scoreboard">Speaker Scoreboard</NuxtLink></p>
+
     <template v-if="upcomingTalks && upcomingTalks.length">
       <h2>Upcoming Talks</h2>
-      <TalkTable v-if="upcomingTalks" :talks="upcomingTalks" />
+      <TalkTable v-if="upcomingTalks" :talks="upcomingTalks.toReversed()" />
     </template>
 
     <template v-if="givenTalks && givenTalks.length">

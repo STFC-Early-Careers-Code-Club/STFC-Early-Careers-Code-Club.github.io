@@ -11,7 +11,7 @@ if (!page.value) {
 </script>
 
 <template>
-  <article class="prose prose-neutral dark:prose-invert container mx-auto">
+  <article class="w-full">
     <template v-if="page">
       <h1>{{ page.title }}</h1>
       <ContentRenderer :value="page" />

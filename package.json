@@ -1,0 +1,20 @@
+{
+  "name": "stfc-early-careers-code-club",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview"
+  },
+  "dependencies": {
+    "@nuxt/content": "^3.10.0",
+    "@nuxtjs/tailwindcss": "^6.14.0",
+    "better-sqlite3": "^12.5.0",
+    "nuxt": "^4.2.2"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.19"
+  }
+}

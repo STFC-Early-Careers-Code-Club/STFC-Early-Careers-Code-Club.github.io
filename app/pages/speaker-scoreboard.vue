@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import ApexChart, { type VueApexChartsComponentProps } from 'vue3-apexcharts'
+
 const { givenTalks } = await useTalks()
 
 const scoreboard = computed(() => {
@@ -16,10 +18,71 @@ const scoreboard = computed(() => {
     count
   })).sort((a, b) => b.count - a.count)
 })
+
+const allDates = computed(() => {
+  if (!givenTalks.value) return []
+  const dates = givenTalks.value.map((t) => t.date)
+  dates.sort((a, b) => a.getTime() - b.getTime())
+  return dates
+})
+
+const series = computed<number[]>(() => {
+  const talks = givenTalks.value
+  if (!talks) return []
+
+  const counts = new Map<string, number>()
+
+  for (const talk of talks) {
+    counts.set(talk.speaker, (counts.get(talk.speaker) ?? 0) + 1)
+  }
+
+  return Array.from(counts.values())
+})
+
+const labels = computed<string[]>(() => {
+  const talks = givenTalks.value
+  if (!talks) return []
+
+  return Array.from(new Set(talks.map(t => t.speaker)))
+})
+
+const options: VueApexChartsComponentProps['options'] = {
+  chart: {
+    type: 'donut'
+  },
+  labels: labels.value,
+  legend: {
+    position: 'bottom'
+  },
+  tooltip: {
+    y: {
+      formatter: val => `${val} talks`
+    }
+  },
+  plotOptions: {
+    pie: {
+      donut: {
+        size: '60%'
+      }
+    }
+  }
+}
 </script>
 
 <template>
   <h2>Speaker Scoreboard</h2>
+
+  <ClientOnly>
+    <div class="bg-white rounded w-full mx-auto">
+      <ApexChart
+        type="donut"
+        height="350"
+        :options="options"
+        :series="series"
+      />
+    </div>
+  </ClientOnly>
+
   <table>
     <thead>
       <tr>

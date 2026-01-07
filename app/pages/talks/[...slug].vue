@@ -14,6 +14,9 @@ if (!page.value) {
   <article class="w-full">
     <template v-if="page">
       <h1>{{ page.title }}</h1>
+      <p><span class="font-bold">Speaker:</span> {{ page.speaker }}</p>
+      <p><span class="font-bold">Date:</span> {{ new Date(page.date).toLocaleDateString() }}</p>
+      <hr>
       <ContentRenderer :value="page" />
     </template>
   </article>

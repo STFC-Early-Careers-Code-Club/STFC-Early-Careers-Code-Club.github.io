@@ -22,7 +22,8 @@ These meetings are held every Wednesday at 12:30, usually in a B Block meeting r
 
 If you cannot attend in person you can join via Teams. [Ashraf Hussain](mailto:ashraf.hussain@stfc.ac.uk) will send out a Teams link before each meeting.
 
-## Resources
+## How do I contribute?
 
-- [Talks](/talks) - A list of all past and upcoming talks
-- [Speaker Scoreboard](/speaker-scoreboard) - A leaderboard of all speakers at Code Club
+If you would like to give a talk at Code Club, please submit a [Talk Request](/talk-requests).
+Someone from the Code Club Committee will respond to your request on GitHub and create a new branch for you containing a new markdown file with the necessary front matter.
+Once you have added the necessary content to this file a PR will be created to merge your talks branch into main, where it will now be displayed in the [Talks](/talks) section of the site.

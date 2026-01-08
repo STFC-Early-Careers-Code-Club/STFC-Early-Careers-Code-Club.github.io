@@ -4,4 +4,4 @@ speaker: George Roe
 date: 2025-10-22
 ---
 
-[Inheritance is Evil Slides](https://georgeroe.github.io/inheritance-evil)
+::slidev{url="https://georgeroe.github.io/inheritance-evil"}

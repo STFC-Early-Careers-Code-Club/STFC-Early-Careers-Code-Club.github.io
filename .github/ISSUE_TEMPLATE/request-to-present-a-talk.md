@@ -1,7 +1,7 @@
 ---
 name: Request to Present a Talk
 about: Suggest a talk you could give at a future Code Club meeting
-title: ''
+title: 'Talk Request: [Your Talk Title Here]'
 labels: ''
 ---
 

@@ -17,8 +17,8 @@ export interface GithubIssue {
   user: string
 }
 
-export async function useGithubIssues() {
-  const { data, error }= await useFetch<GithubIssueApiResponse[]>('https://api.github.com/repos/STFC-Early-Careers-Code-Club/STFC-Early-Careers-Code-Club.github.io/issues')
+export function useGithubIssues() {
+  const { data, error } = useFetch<GithubIssueApiResponse[]>('https://api.github.com/repos/STFC-Early-Careers-Code-Club/STFC-Early-Careers-Code-Club.github.io/issues')
 
   console.info(data.value)
 

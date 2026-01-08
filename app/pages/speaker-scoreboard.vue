@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import ApexChart, { type VueApexChartsComponentProps } from 'vue3-apexcharts'
 
-const { pastTalks } = await useTalks()
+const { pastTalks } = useTalks()
 
 const scoreboard = computed(() => {
   const speakerScoreMap = pastTalks.value?.reduce((acc, talk) => {

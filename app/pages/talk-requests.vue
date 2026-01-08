@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { talkRequests, error } = await useTalkRequests()
+const { talkRequests, error } = useTalkRequests()
 </script>
 
 <template>

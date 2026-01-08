@@ -1,5 +1,5 @@
-export async function useTalks() {
-  const { data: rawTalks } = await useAsyncData(
+export function useTalks() {
+  const { data: rawTalks } = useAsyncData(
     'talks-list',
     () => queryCollection('talks').all()
   )

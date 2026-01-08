@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { pastTalks, upcomingTalks } = await useTalks()
+const { pastTalks, upcomingTalks } = useTalks()
 </script>
 
 <template>

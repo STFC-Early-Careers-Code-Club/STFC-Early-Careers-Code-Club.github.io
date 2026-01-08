@@ -15,7 +15,7 @@ const links: Link[] = [
   <nav class="bg-blue-500 text-white h-12 sticky top-0 z-50 flex justify-between items-center">
     <NuxtLink to="/" class="flex items-center h-full">
       <img src="/images/little-willow.png" alt="Logo" class="h-full">
-      <span class="ml-2 font-bold text-lg">STFC Early Careers Code Club</span>
+      <span class="ml-2 font-bold text-lg hidden md:block">STFC Early Careers Code Club</span>
     </NuxtLink>
 
     <div class="flex items-center gap-4">

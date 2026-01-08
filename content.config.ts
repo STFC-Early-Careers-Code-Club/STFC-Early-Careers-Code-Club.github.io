@@ -15,6 +15,10 @@ export default defineContentConfig({
       source: 'talks/**/*.md',
       schema: z.object({
         title: z.string(),
+        description: z.string().optional(),
+        imgUrl: z.string().optional(),
+        isImgLogo: z.boolean().optional(),
+        imgClass: z.string().optional(),
         speaker: z.string(),
         date: z.date(),
       })

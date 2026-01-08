@@ -1,4 +1,4 @@
-![STFC SCD Logo](https://www.psdi.ac.uk/wp-content/uploads/2024/10/UKRI_STFC_SCIENTIFIC_COMPUTING_RGB.png){class="w-1/2 mx-auto bg-white"}
+![STFC SCD Logo](/images/stfc-scd.webp){class="w-1/2 mx-auto bg-white"}
 
 # STFC Early Careers Code Club
 

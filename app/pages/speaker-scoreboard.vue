@@ -83,18 +83,13 @@ const options: VueApexChartsComponentProps['options'] = {
     </div>
   </ClientOnly>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Speaker</th>
-        <th>Number of Talks</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="entry in scoreboard" :key="entry.speaker">
-        <td>{{ entry.speaker }}</td>
-        <td>{{ entry.count }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <AsyncTable
+    :data="scoreboard"
+    :columns="['Speaker', 'Number of Talks']"
+  >
+    <tr v-for="entry in scoreboard" :key="entry.speaker">
+      <td>{{ entry.speaker }}</td>
+      <td>{{ entry.count }}</td>
+    </tr>
+  </AsyncTable>
 </template>

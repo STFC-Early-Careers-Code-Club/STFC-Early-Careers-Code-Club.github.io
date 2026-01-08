@@ -1,35 +1,27 @@
 <script setup lang="ts">
+import type { AsyncTableError } from './AsyncTable.vue';
+
 defineProps<{
-  talks: {
+  talks?: {
     title: string
     speaker: string
     date: Date
     path: string
-  }[]
+  }[],
+  error?: AsyncTableError
 }>()
-
-const router = useRouter()
-
-function goToTalk(talk: { title: string; speaker: string; date: Date; path: string }) {
-  router.push(talk.path)
-}
 </script>
 
 <template>
-  <table>
-    <thead>
-      <tr>
-        <th>Title</th>
-        <th>Speaker</th>
-        <th>Date</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="talk in talks" :key="talk.title" @click="goToTalk(talk)" class="cursor-pointer hover:underline">
-        <td>{{ talk.title }}</td>
-        <td>{{ talk.speaker }}</td>
-        <td>{{ talk.date.toLocaleDateString() }}</td>
-      </tr> 
-    </tbody>
-  </table>
+  <AsyncTable
+    :data="talks"
+    :error="error"
+    :columns="['Title', 'Speaker', 'Date']"
+  >
+    <tr v-for="talk in talks" :key="talk.title" @click="navigateTo(talk.path)" class="cursor-pointer hover:underline">
+      <td>{{ talk.title }}</td>
+      <td>{{ talk.speaker }}</td>
+      <td>{{ talk.date.toLocaleDateString() }}</td>
+    </tr> 
+  </AsyncTable>
 </template>

@@ -23,7 +23,7 @@ const ogImage =
       v-if="ogImage"
       :src="ogImage"
       alt=""
-      class="not-prose block h-20 w-1/2"
+      class="not-prose block w-1/2"
     />
     <span>
       Visit {{ owner }}/{{ repo }} on GitHub

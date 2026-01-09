@@ -1,3 +1,5 @@
+
+
 export function useTalks() {
   const { data: rawTalks } = useAsyncData(
     'talks-list',
@@ -27,3 +29,5 @@ export function useTalks() {
     upcomingTalks
   }
 }
+
+export type Talk = NonNullable<ReturnType<typeof useTalks>['talks']['value']>[number]

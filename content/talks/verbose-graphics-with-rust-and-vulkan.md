@@ -1,5 +1,5 @@
 ---
-title: Vulkan
+title: Verbose Graphics with Rust and Vulkan
 speaker: Arsalan Yasir
 date: 2026-01-21
 imgUrl: /images/vulkan-example.png

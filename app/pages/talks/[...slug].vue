@@ -1,23 +1,27 @@
 <script setup lang="ts">
 const route = useRoute()
 
-const { data: page } = await useAsyncData('page-' + route.path, () => {
-  return queryCollection('talks').path(route.path).first()
-})
+const talk = await useTalk(route.path)
 
-if (!page.value) {
+if (!talk.value) {
   throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
 }
 </script>
 
 <template>
   <article class="w-full">
-    <template v-if="page">
-      <h1>{{ page.title }}</h1>
-      <p><span class="font-bold">Speaker:</span> {{ page.speaker }}</p>
-      <p><span class="font-bold">Date:</span> {{ new Date(page.date).toLocaleDateString() }}</p>
-      <hr>
-      <ContentRenderer :value="page" />
+    <template v-if="talk">
+      <h1 class="mb-2">{{ talk.title }}</h1>
+      <p class="my-2 italic text-sm">{{ talk.speaker }} - {{ talk.date.toLocaleDateString() }}</p>
+      <img
+        v-if="talk.imgUrl"
+        :src="talk.imgUrl"
+        class="my-2 w-full h-48 rounded"
+        :class="`${talk.imgClass} ${talk.isImgLogo ? 'object-contain p-2' : 'object-cover'}`"
+      />
+      <p class="my-2">{{ talk.description }}</p>
+      <hr class="mt-2">
+      <ContentRenderer :value="talk" />
     </template>
   </article>
 </template>

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { Talk } from '~/lib/sanitiseTalksCollectionItem';
+
 defineProps<{
   talk: Talk
 }>()

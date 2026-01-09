@@ -1,4 +1,4 @@
-
+import { sanitiseTalksCollectionItem, type Talk } from "~/lib/sanitiseTalksCollectionItem"
 
 export function useTalks() {
   const { data: rawTalks } = useAsyncData(
@@ -7,10 +7,9 @@ export function useTalks() {
   )
 
   const talks = computed(() => {
-    return rawTalks.value?.map(talk => ({
-      ...talk,
-      date: new Date(talk.date)
-    })).toSorted((a, b) => b.date.getTime() - a.date.getTime())
+    return rawTalks.value
+      ?.map(sanitiseTalksCollectionItem)
+      .toSorted((a, b) => b.date.getTime() - a.date.getTime())
   })
 
   const now = useNow()
@@ -29,5 +28,3 @@ export function useTalks() {
     upcomingTalks
   }
 }
-
-export type Talk = NonNullable<ReturnType<typeof useTalks>['talks']['value']>[number]

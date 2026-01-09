@@ -33,7 +33,7 @@ const talks = computed(() => {
             :src="talk.imgUrl || '/images/no-image.jpg'"
             :alt="`Image for ${talk.title}`"
             class="w-full h-48 rounded-md mb-2"
-            :class="`${talk.imgClass} ${talk.imgUrl ? '' : 'dark:invert'} ${talk.isImgLogo ? 'object-contain' : 'object-cover'}`"/>
+            :class="`${talk.imgClass} ${talk.imgUrl ? '' : 'dark:invert'} ${talk.isImgLogo ? 'object-contain p-2' : 'object-cover'}`"/>
           <NuxtLink :to="talk.path" class="hover:underline">
             <h3 class="font-bold text-xl dark:text-white">{{ talk.title }}</h3>
             <p class="text-sm">{{ talk.speaker }} - {{ new Date(talk.date).toLocaleDateString() }}</p>

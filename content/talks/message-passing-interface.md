@@ -16,4 +16,4 @@ This talk also involved a live demo of MPI with Python. The demo code can be acc
 ::GitHubRepo{url="https://github.com/bryceshirley/mpi_tutorial"}
 ::
 
-Durham University also has a good visualisation of HPC funddamentals include MPI why you can access [here](https://360.articulate.com/review/content/df08a035-b9d6-4de4-ae5f-4c62b33bc67b/review).
+Durham University also has a good visualisation of HPC funddamentals include MPI which you can access [here](https://360.articulate.com/review/content/df08a035-b9d6-4de4-ae5f-4c62b33bc67b/review).

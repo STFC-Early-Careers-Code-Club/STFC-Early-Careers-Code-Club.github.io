@@ -13,11 +13,11 @@ const ogImage =
 </script>
 
 <template>
-  <NuxtLink
-    :to="url"
+  <a
+    :href="url"
     target="_blank"
     rel="noopener"
-    class="underline decoration-dotted"
+    class="underline decoration-dotted cursor-pointer"
   >
     <img
       v-if="ogImage"
@@ -28,5 +28,5 @@ const ogImage =
     <span>
       Visit {{ owner }}/{{ repo }} on GitHub
     </span>
-  </NuxtLink>
+  </a>
 </template>

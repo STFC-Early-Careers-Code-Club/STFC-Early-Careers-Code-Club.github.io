@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import ApexChart, { type VueApexChartsComponentProps } from 'vue3-apexcharts'
-
 const { pastTalks } = useTalks()
 
-const scoreboard = computed(() => {
+const scoreboard = computed<{
+  speaker: string
+  count: number
+}[]>(() => {
   const speakerScoreMap = pastTalks.value?.reduce((acc, talk) => {
     acc[talk.speaker] = (acc[talk.speaker] || 0) + 1
     return acc
@@ -19,69 +20,40 @@ const scoreboard = computed(() => {
   })).sort((a, b) => b.count - a.count)
 })
 
-const allDates = computed(() => {
-  if (!pastTalks.value) return []
-  const dates = pastTalks.value.map((t) => t.date)
-  dates.sort((a, b) => a.getTime() - b.getTime())
-  return dates
-})
-
-const series = computed<number[]>(() => {
-  const talks = pastTalks.value
-  if (!talks) return []
-
-  const counts = new Map<string, number>()
-
-  for (const talk of talks) {
-    counts.set(talk.speaker, (counts.get(talk.speaker) ?? 0) + 1)
-  }
-
-  return Array.from(counts.values())
-})
-
-const labels = computed<string[]>(() => {
-  const talks = pastTalks.value
-  if (!talks) return []
-
-  return Array.from(new Set(talks.map(t => t.speaker)))
-})
-
-const options: VueApexChartsComponentProps['options'] = {
-  chart: {
-    type: 'donut'
+const categories = computed<Record<string, BulletLegendItemInterface>>(() => ({
+  count: {
+    name: 'Number of Talks',
+    className: 'fill-blue-500'
   },
-  labels: labels.value,
-  legend: {
-    position: 'bottom'
-  },
-  tooltip: {
-    y: {
-      formatter: val => `${val} talks`
-    }
-  },
-  plotOptions: {
-    pie: {
-      donut: {
-        size: '60%'
-      }
-    }
-  }
-}
+}))
+
+const topScoreboard = computed(() => scoreboard.value.slice(0, 5))
+
+const xFormatter = (i: number): string => `${topScoreboard.value[i]?.speaker}`
+const yFormatter = (tick: number) => tick.toString()
+
+const bestCount = computed(() => scoreboard.value.at(0)?.count || 0)
 </script>
 
 <template>
   <h2>Speaker Scoreboard</h2>
 
-  <ClientOnly>
-    <div class="bg-white rounded w-full mx-auto">
-      <ApexChart
-        type="donut"
-        height="350"
-        :options="options"
-        :series="series"
-      />
-    </div>
-  </ClientOnly>
+  <div class="bg-neutral-100 rounded p-4 pt-8">
+    <BarChart
+      :data="topScoreboard"
+      :height="300"
+      :categories="categories"
+      :y-axis="['count']"
+      :x-num-ticks="topScoreboard.length"
+      :y-num-ticks="bestCount"
+      :radius="4"
+      :y-grid-line="true"
+      :x-formatter="xFormatter"
+      :y-formatter="yFormatter"
+      :hide-legend="true"
+      y-label="Number of Talks"
+    />
+  </div>
 
   <AsyncTable
     :data="scoreboard"

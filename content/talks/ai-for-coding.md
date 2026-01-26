@@ -1,5 +1,5 @@
 ---
-title: AI for Coding
+title: As We May Think - AI for Coding
 speaker: Willow Sparks
 date: 2026-02-25
 imgUrl: /images/as-we-may-think.jpg

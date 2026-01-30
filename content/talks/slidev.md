@@ -1,7 +1,7 @@
 ---
 title: Slidev
 speaker: George Roe
-date: 2026-01-28
+date: 2026-02-04
 imgUrl: /images/slidev-logo.png
 isImgLogo: true
 imgClass: bg-white

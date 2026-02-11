@@ -15,11 +15,11 @@ export function useTalks() {
   const now = useNow()
 
   const pastTalks = computed(() => {
-    return talks.value?.filter(talk => talk.date <= now.value)
+    return talks.value?.filter(talk => talk.date < now.value)
   })
 
   const upcomingTalks = computed(() => {
-    return talks.value?.filter(talk => talk.date > now.value)
+    return talks.value?.filter(talk => talk.date >= now.value)
   })
 
   return {

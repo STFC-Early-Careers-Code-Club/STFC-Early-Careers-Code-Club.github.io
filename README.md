@@ -15,3 +15,7 @@ To run the site locally simply run the following command:
 ```sh
 npm run dev
 ```
+
+## Contributing
+
+Please follow the guidance in the [CONTRIBUTING](CONTRIBUTING.md) document.

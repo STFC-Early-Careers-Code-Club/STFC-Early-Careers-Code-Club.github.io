@@ -21,6 +21,7 @@ export default defineContentConfig({
         imgClass: z.string().optional(),
         speaker: z.string(),
         date: z.date(),
+        recordingUrl: z.string().optional(),
       })
     })
   }

@@ -7,3 +7,6 @@ isImgLogo: true
 imgClass: bg-white
 description: A presentation on time complexity in algorithms, covering Big O notation and common complexity classes.
 ---
+
+::pdf{url="/talk-assets/time-complexity/presentation.pdf" class=aspect-video}
+::

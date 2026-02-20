@@ -28,6 +28,7 @@ if (!talk.value) {
           <p class="mt-2 mb-0">{{ talk.description }}</p>
         </div>
       </div>
+      <TeamsVideo v-if="talk.recordingUrl" :url="talk.recordingUrl" />
       <ContentRenderer :value="talk" />
     </template>
   </article>

@@ -4,6 +4,7 @@ speaker: George Roe
 date: 2026-02-11
 imgUrl: /images/nuxt-content-logo.png
 description: A practical guide to using Nuxt Content for managing and displaying content in Nuxt.js applications, using this very site as an example.
+recordingUrl: https://stfc365-my.sharepoint.com/personal/ashraf_hussain_stfc_ac_uk/_layouts/15/embed.aspx?UniqueId=354e236f-1d64-4048-90be-2b59f7bcce75&embed=%7B%22ust%22%3Afalse%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create
 ---
 
 Nuxt Content is a powerful module for Nuxt.js that allows you to create an insanely flexible file-based content management system (CMS).

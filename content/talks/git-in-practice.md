@@ -1,5 +1,5 @@
 ---
-title: Git in Practice: Techniques for Collaborative Development 
+title: "Git in Practice: Techniques for Collaborative Development"
 speaker: Lizzie Salmon
 date: 2026-03-04
 imgUrl: /images/git.png

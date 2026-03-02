@@ -35,12 +35,6 @@ const headline = computed(() => findPageHeadline(
   navigation?.value,
   talk.value?.path
 ))
-
-defineOgImageComponent('Docs', {
-  headline: headline.value
-})
-
-const talkHasContent = computed(() => talk.value?.body.value.length !== 0)
 </script>
 
 <template>

@@ -5,14 +5,8 @@ defineProps<{
 </script>
 
 <template>
-  <div>
-    <iframe
-      :src="url"
-      class="w-full aspect-video border-0"
-      allowfullscreen
-    ></iframe>
-    <a :href="url" target="_blank" rel="noopener">
-      Open Recording in new tab
-    </a>
-  </div>
+  <IframeContainer
+    :url="url"
+    message="Open recording in new tab"
+  />
 </template>

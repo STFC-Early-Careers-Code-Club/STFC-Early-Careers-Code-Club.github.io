@@ -11,13 +11,11 @@ function isSameDay(date1: Date, date2: Date) {
 export function useTalks() {
   const { data: rawTalks } = useAsyncData(
     'talks-list',
-    () => queryCollection('talks').all()
+    () => queryCollection('talks').order('date', 'DESC').all()
   )
 
   const talks = computed(() => {
-    return rawTalks.value
-      ?.map(sanitiseTalksCollectionItem)
-      .toSorted((a, b) => b.date.getTime() - a.date.getTime())
+    return rawTalks.value?.map(sanitiseTalksCollectionItem)
   })
 
   const now = useNow()

@@ -9,24 +9,32 @@ const repo = match?.[2]?.replace(/\.git$/, '')
 const ogImage =
   owner && repo
     ? `https://opengraph.githubassets.com/1/${owner}/${repo}`
-    : null
+    : undefined
+
+const ownerImage = owner
+  ? `https://github.com/${owner}.png`
+  : undefined
 </script>
 
 <template>
-  <a
-    :href="url"
-    target="_blank"
-    rel="noopener"
-    class="underline decoration-dotted cursor-pointer"
-  >
-    <img
-      v-if="ogImage"
-      :src="ogImage"
-      alt=""
-      class="not-prose block w-1/2"
-    />
-    <span>
-      Visit {{ owner }}/{{ repo }} on GitHub
-    </span>
-  </a>
+  <UBlogPost
+    :title="repo"
+    description="View repository on GitHub"
+    :image="ogImage" 
+    :authors="[{
+      name: owner,
+      avatar: {
+        src: ownerImage,
+        icon: 'i-lucide-image'
+      }
+    }]"
+    :to="url"
+    :ui="{
+      header: 'aspect-[2/1]',
+      image: 'object-contain',
+      body: 'sm:p-4'
+    }"
+    orientation="horizontal"
+    class="xl:w-3/4"
+  />
 </template>

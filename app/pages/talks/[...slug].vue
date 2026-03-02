@@ -1,35 +1,112 @@
 <script setup lang="ts">
+import type { ContentNavigationItem } from '@nuxt/content'
+import { findPageHeadline } from '@nuxt/content/utils'
+
+definePageMeta({
+  layout: 'talk'
+})
+
 const route = useRoute()
+const navigation = inject<Ref<ContentNavigationItem[]>>('navigation')
 
 const talk = await useTalk(route.path)
 
 if (!talk.value) {
   throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
 }
+
+const { data: surround } = await useAsyncData(`${route.path}-surround`, () => {
+  return queryCollectionItemSurroundings('talks', route.path, {
+    fields: ['description'],
+  }).order('date', 'ASC')
+})
+
+const title = talk.value.seo?.title || talk.value.title
+const description = talk.value.seo?.description || talk.value.description
+
+useSeoMeta({
+  title,
+  ogTitle: title,
+  description,
+  ogDescription: description
+})
+
+const headline = computed(() => findPageHeadline(
+  navigation?.value,
+  talk.value?.path
+))
+
+defineOgImageComponent('Docs', {
+  headline: headline.value
+})
+
+const talkHasContent = computed(() => talk.value?.body.value.length !== 0)
 </script>
 
 <template>
-  <article class="w-full">
-    <template v-if="talk">
-      <div class="relative rounded-lg overflow-hidden mb-2">
-        <img
-          v-if="talk.imgUrl"
-          :src="talk.imgUrl"
-          class="absolute inset-0 m-0 w-full h-full blur-sm scale-110"
-          :class="`${talk.imgClass} ${talk.isImgLogo ? 'object-contain p-2' : 'object-cover'}`"
-        />
-        <div v-else class="bg-neutral-100 dark:bg-neutral-800 absolute inset-0 m-0 w-full h-full" />
+  <UPage v-if="talk">
+    <UPageHeader
+      :title="talk.title"
+      :description="talk.description"
+      :headline="headline"
+    />
 
-        <div class="p-2 relative" :class="{ 'bg-white/80 dark:bg-black/80': talk.imgUrl }">
-          <h1 class="mb-2">{{ talk.title }}</h1>
-          <p class="my-2 italic text-sm">
-            {{ talk.speaker }} - {{ talk.date.toLocaleDateString() }}
-          </p>
-          <p class="mt-2 mb-0">{{ talk.description }}</p>
-        </div>
-      </div>
-      <TeamsVideo v-if="talk.recordingUrl" :url="talk.recordingUrl" />
-      <ContentRenderer :value="talk" />
-    </template>
-  </article>
+    <UPageBody>
+      <UTabs
+        :items="[
+          {
+            label: 'Content',
+            slot: 'content' as const
+          },
+          {
+            label: 'Recording',
+            slot: 'recording' as const
+          }
+        ]"
+        variant="link"
+      >
+        <template #content>
+          <ContentRenderer
+            v-if="talk && talk.body.value.length"
+            :value="talk"
+          />
+          <UAlert
+            v-else
+            @click="navigateTo(
+              'https://github.com/STFC-Early-Careers-Code-Club',
+              { external: true }
+            )"
+            title="There isn't any content for this talk."
+            description="If this is your talk, please add some content by creating a PR on the GitHub."
+            color="warning"
+            variant="subtle"
+            class="cursor-pointer"
+          />
+        </template>
+
+        <template #recording>
+          <TeamsVideo
+            v-if="talk.recordingUrl"
+            :url="talk.recordingUrl"
+          />
+          <UAlert
+            v-else
+            @click="navigateTo(
+              'https://github.com/STFC-Early-Careers-Code-Club',
+              { external: true }
+            )"
+            title="There isn't a recording for this talk."
+            description="If this is your talk, and a recording was made, please add the recording by creating a PR on the GitHub."
+            color="warning"
+            variant="subtle"
+            class="cursor-pointer"
+          />
+        </template>
+      </UTabs>
+
+      <USeparator v-if="surround?.length" />
+
+      <UContentSurround :surround="surround" />
+    </UPageBody>
+  </UPage>
 </template>

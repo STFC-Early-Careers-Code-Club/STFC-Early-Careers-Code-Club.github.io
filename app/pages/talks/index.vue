@@ -6,59 +6,105 @@ function isStatus(value: any): value is Status {
 const status = useQueryParam<Status>('status', val => isStatus(val) ? val : 'upcoming')
 
 const STYLE_QUERY_KEY = 'style'
-type Style = 'table' | 'cards'
+type Style = 'table' | 'blog'
 function isStyle(value: any): value is Style {
-  return value === 'table' || value === 'cards'
+  return value === 'table' || value === 'blog'
 }
-const style = useQueryParam<Style>(STYLE_QUERY_KEY, val => isStyle(val) ? val : 'cards')
+const style = useQueryParam<Style>(STYLE_QUERY_KEY, val => isStyle(val) ? val : 'blog')
 
 const { pastTalks, upcomingTalks, todaysTalk } = useTalks()
 
 const talks = computed(() => {
   return status.value === 'upcoming' ? upcomingTalks.value?.toReversed() : pastTalks.value
 })
+
+const title = "Talks"
+const description = "Browse through our collection of talks."
+
+useSeoMeta({
+  title,
+  ogTitle: title,
+  description,
+  ogDescription: description
+})
 </script>
 
 <template>
-  <div class="w-full">
-    <h1 class="text-center">Talks</h1>
+  <UPageHeader
+    :title="title"
+    :description="description"
+  />
 
-    <NuxtLink v-if="todaysTalk" class="no-underline text-white cursor-pointer" :to="todaysTalk.path">
-      <h2 class="text-center text-sm italic font-light text-neutral-300 mb-1">Today's talk:</h2>
+  <UPageBody>
+    <UPageCTA
+      v-if="todaysTalk"
+      :title="`Todays Talk: ${todaysTalk.title}`"
+      :description="`${todaysTalk.speaker} - ${todaysTalk.description}`"
+      variant="naked"
+      orientation="horizontal"
+      :links="[
+        {
+          label: 'Check it out'
+        }
+      ]"
+    >
+      <img
+        :src="todaysTalk.imgUrl || '/images/no-image.jpg'"
+        :key="todaysTalk.path"
+        :alt="`Image for ${todaysTalk.title}`"
+        class="w-full h-48 rounded-md mb-2"
+        :class="todaysTalk.imgUrl
+          ? `${todaysTalk.imgClass} ${todaysTalk.isImgLogo ? 'object-contain p-2' : 'object-cover'}`
+          : 'object-contain dark:invert bg-white'
+        "
+      />
+    </UPageCTA>
 
-      <div class="relative rounded-lg overflow-hidden mb-4">
-        <img
-          v-if="todaysTalk.imgUrl"
-          :src="todaysTalk.imgUrl"
-          class="absolute inset-0 m-0 w-full h-full blur-sm scale-110"
-          :class="`${todaysTalk.imgClass} ${todaysTalk.isImgLogo ? 'object-contain p-2' : 'object-cover'}`"
-        />
-        <div v-else class="bg-neutral-100 dark:bg-neutral-800 absolute inset-0 m-0 w-full h-full" />
+    <div class="flex flex-col sm:flex-row gap-2 justify-center mb-4">
+      <UTabs
+        v-model="style"
+        :items="[
+          {
+            label: 'Blog',
+            icon: 'i-lucide-list',
+            value: 'blog'
+          },
+          {
+            label: 'Table',
+            icon: 'i-lucide-table',
+            value: 'table'
+          }
+        ]"
+      />
 
-        <div class="p-2 relative" :class="{ 'bg-white/80 dark:bg-black/80': todaysTalk.imgUrl }">
-          <h3 class="m-0 text-2xl">{{ todaysTalk.title }}</h3>
-          <p class="my-2 italic text-sm">
-            {{ todaysTalk.speaker }}
-          </p>
-          <p class="mt-2 mb-0">{{ todaysTalk.description }}</p>
-        </div>
-      </div>
-    </NuxtLink>
-
-    <div class="flex gap-2 justify-center mb-4">
-      <Slider v-model="status" :options="[ 'upcoming', 'past' ]"></Slider>
-      <Slider v-model="style" :options="[ 'cards', 'table' ]"></Slider>
+      <UTabs
+        v-model="status"
+        :items="[
+          {
+            label: 'Past',
+            icon: 'i-lucide-arrow-big-left',
+            value: 'past'
+          },
+          {
+            label: 'Upcoming',
+            icon: 'i-lucide-arrow-big-right',
+            value: 'upcoming'
+          }
+        ]"
+        
+      />
     </div>
 
-    <template v-if="talks && talks.length">
+    <template v-if="talks">
       <TalkTable v-if="style === 'table'" :talks="talks" />
-      <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-2">
-        <TalkCard
+
+      <UBlogPosts v-else>
+        <TalkBlogEntry
           v-for="talk in talks"
           :key="talk.id"
           :talk="talk"
-        />
-      </div>
+        /> 
+      </UBlogPosts>
     </template>
-  </div>
+  </UPageBody>
 </template>

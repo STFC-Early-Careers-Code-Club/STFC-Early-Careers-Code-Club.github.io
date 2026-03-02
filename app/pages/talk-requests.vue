@@ -18,13 +18,20 @@ const columns: TableColumn<GithubIssue>[] = [
 function onTalkRequestSelected(_: Event, row: TableRow<GithubIssue>) {
   navigateTo(row.original.url, { external: true })
 }
+
+const title = "Talk Requests"
+const description = "See the talks that have been requested by the community, or create a new request to present a talk yourself."
+
+useSeoMeta({
+  title,
+  ogTitle: title,
+  description,
+  ogDescription: description
+})
 </script>
 
 <template>
-  <UPageHeader
-    title="Talk Requests"
-    description="See the talks that have been requested by the community, or create a new request to present a talk yourself."
-  />
+  <UPageHeader :title="title" :description="description" />
 
   <UPageBody>
     <UButton

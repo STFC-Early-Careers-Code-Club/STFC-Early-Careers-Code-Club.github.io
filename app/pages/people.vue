@@ -61,10 +61,20 @@ const columns: TableColumn<Person>[] = [
     accessorFn: row => row.talks.length,
   }
 ]
+
+const title = "People"
+const description = "Meet the people who have contributed to ECCC."
+
+useSeoMeta({
+  title,
+  ogTitle: title,
+  description,
+  ogDescription: description
+})
 </script>
 
 <template>
-  <UPageHeader title="People" />
+  <UPageHeader :title="title" :description="description" />
 
   <UPageBody>
     <UTable

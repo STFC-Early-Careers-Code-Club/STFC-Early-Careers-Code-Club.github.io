@@ -35,10 +35,10 @@ const columns: TableColumn<Person>[] = [
       return h(UUser, {
         name,
         description: title,
-        avatar: {
+        avatar: imgUrl ? {
           src: imgUrl,
           icon: 'i-lucide-image'
-        }
+        } : undefined
       })
     }
   },

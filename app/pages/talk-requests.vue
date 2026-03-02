@@ -1,23 +1,48 @@
 <script setup lang="ts">
+import type { TableColumn, TableRow } from '@nuxt/ui';
+import type { GithubIssue } from '~/composables/useGithubIssues';
+
 const { talkRequests, error } = useTalkRequests()
+
+const columns: TableColumn<GithubIssue>[] = [
+  {
+    accessorKey: 'title',
+    header: 'Title',
+  },
+  {
+    accessorKey: 'user',
+    header: 'Requested by',
+  }
+]
+
+function onTalkRequestSelected(_: Event, row: TableRow<GithubIssue>) {
+  navigateTo(row.original.url, { external: true })
+}
 </script>
 
 <template>
-  <h1>Talk Requests</h1>
-  <NuxtLink to="https://github.com/STFC-Early-Careers-Code-Club/STFC-Early-Careers-Code-Club.github.io/issues/new?template=request-to-present-a-talk.md">Create a Talk Request</NuxtLink>
-  <AsyncTable
-    :data="talkRequests"
-    :error="error"
-    :columns="['Title', 'Requested by']" 
-  >
-    <tr
-      v-for="request in talkRequests"
-      :key="request.url"
-      @click="navigateTo(request.url, { external: true })"
-      class="cursor-pointer hover:underline"
+  <UPageHeader
+    title="Talk Requests"
+    description="See the talks that have been requested by the community, or create a new request to present a talk yourself."
+  />
+
+  <UPageBody>
+    <UButton
+      to="https://github.com/STFC-Early-Careers-Code-Club/STFC-Early-Careers-Code-Club.github.io/issues/new?template=request-to-present-a-talk.md"
     >
-      <td>{{ request.title }}</td>
-      <td>{{ request.user }}</td>
-    </tr>
-  </AsyncTable>
+      Submit Talk Request
+    </UButton>
+
+    <UTable
+      v-if="talkRequests"
+      :data="talkRequests"
+      :columns="columns"
+      @select="onTalkRequestSelected"
+      class="flex-1"
+      :ui="{
+        tr: 'cursor-pointer'
+      }"
+    />
+    <p v-else-if="error" class="text-red-500">Failed to load talk requests: {{ error.message }}</p>
+  </UPageBody>
 </template>

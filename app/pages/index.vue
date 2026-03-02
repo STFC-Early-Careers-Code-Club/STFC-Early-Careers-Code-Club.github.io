@@ -21,6 +21,12 @@
           icon: 'i-lucide-plus',
           variant: 'outline'
         },
+        {
+          label: 'Join the Community',
+          to: 'https://teams.microsoft.com/l/team/19%3AXpRLCeplTbX1pkEymOb1E4EUr1s6dSPyaBVYVAYbEO01%40thread.tacv2/conversations?groupId=3e4e04d5-996c-40fc-9269-ce7b30f2b13c&tenantId=3f66361c-a87e-4158-8f61-99e82db3cac8',
+          icon: 'i-lucide-door-open',
+          variant: 'outline'
+        }
       ]"
     >
       <template #headline>

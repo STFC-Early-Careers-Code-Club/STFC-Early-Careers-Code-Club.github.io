@@ -18,6 +18,7 @@ const columns: TableColumn<Person>[] = [
         icon: 'i-lucide-chevron-down',
         square: true,
         'aria-label': 'Expand',
+        disabled: row.original.talks.length === 0,
         ui: {
           leadingIcon: [
             'transition-transform',

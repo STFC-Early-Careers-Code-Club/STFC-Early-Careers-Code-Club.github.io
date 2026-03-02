@@ -18,6 +18,7 @@ export function usePeople() {
 
     return {
       ...person,
+      roles: person.roles.concat(talksForPerson.length > 0 ? ['Speaker'] : []),
       talks: talksForPerson
     }
   }) || [])

@@ -10,11 +10,17 @@
           icon: 'i-lucide-speech'
         },
         {
+          label: 'Check who\'s involved',
+          to: '/people',
+          icon: 'i-lucide-users',
+          variant: 'soft'
+        },
+        {
           label: 'Request a Talk',
           to: '/talk-requests',
           icon: 'i-lucide-plus',
           variant: 'outline'
-        }
+        },
       ]"
     >
       <template #headline>

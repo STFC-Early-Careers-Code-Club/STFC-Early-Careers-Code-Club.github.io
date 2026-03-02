@@ -15,6 +15,8 @@ if (!talk.value) {
   throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
 }
 
+const speaker = usePerson(talk.value.speaker)
+
 const { data: surround } = await useAsyncData(`${route.path}-surround`, () => {
   return queryCollectionItemSurroundings('talks', route.path, {
     fields: ['description'],
@@ -43,7 +45,19 @@ const headline = computed(() => findPageHeadline(
       :title="talk.title"
       :description="talk.description"
       :headline="headline"
-    />
+    >
+      <template #links>
+        <UUser
+          v-if="speaker"
+          :name="speaker.name"
+          :description="speaker.title"
+          :avatar="speaker.imgUrl ? {
+            src: speaker.imgUrl,
+            icon: 'i-lucide-image'
+          } : undefined"
+        />
+      </template>
+    </UPageHeader>
 
     <UPageBody>
       <UTabs

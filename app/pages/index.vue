@@ -10,7 +10,7 @@
           icon: 'i-lucide-speech'
         },
         {
-          label: 'Check who\'s involved',
+          label: 'Meet the Team',
           to: '/people',
           icon: 'i-lucide-users',
           variant: 'soft'

@@ -21,7 +21,7 @@ export function usePeople() {
       roles: (person.roles || []).concat(talksForPerson.length > 0 ? ['Speaker'] : []),
       talks: talksForPerson
     }
-  }) || [])
+  }).sort((a, b) => b.talks.length - a.talks.length) || [])
 
   return {
     people

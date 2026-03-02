@@ -6,11 +6,11 @@ function isStatus(value: any): value is Status {
 const status = useQueryParam<Status>('status', val => isStatus(val) ? val : 'upcoming')
 
 const STYLE_QUERY_KEY = 'style'
-type Style = 'table' | 'blog'
+type Style = 'table' | 'tiles'
 function isStyle(value: any): value is Style {
-  return value === 'table' || value === 'blog'
+  return value === 'table' || value === 'tiles'
 }
-const style = useQueryParam<Style>(STYLE_QUERY_KEY, val => isStyle(val) ? val : 'blog')
+const style = useQueryParam<Style>(STYLE_QUERY_KEY, val => isStyle(val) ? val : 'tiles')
 
 const { pastTalks, upcomingTalks, todaysTalk } = useTalks()
 
@@ -65,9 +65,9 @@ useSeoMeta({
         v-model="style"
         :items="[
           {
-            label: 'Blog',
-            icon: 'i-lucide-list',
-            value: 'blog'
+            label: 'Tiles',
+            icon: 'i-lucide-grid-2x2',
+            value: 'tiles'
           },
           {
             label: 'Table',
@@ -81,14 +81,14 @@ useSeoMeta({
         v-model="status"
         :items="[
           {
-            label: 'Past',
-            icon: 'i-lucide-arrow-big-left',
-            value: 'past'
+            label: 'Upcoming',
+            icon: 'i-lucide-message-circle-dashed',
+            value: 'upcoming'
           },
           {
-            label: 'Upcoming',
-            icon: 'i-lucide-arrow-big-right',
-            value: 'upcoming'
+            label: 'Past',
+            icon: 'i-lucide-message-circle',
+            value: 'past'
           }
         ]"
         

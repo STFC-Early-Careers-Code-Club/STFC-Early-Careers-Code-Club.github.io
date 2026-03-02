@@ -52,7 +52,7 @@ const columns: TableColumn<Person>[] = [
       return h(
         'div',
         { class: 'flex gap-1' },
-        roles.map(role => h(UBadge, { variant: 'subtle' }, () => role)
+        roles.map(role => h(UBadge, { variant: role === 'Speaker' ? 'outline' : 'subtle' }, () => role)
       ))
     }
   },

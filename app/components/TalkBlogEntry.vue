@@ -16,7 +16,7 @@ const person = usePerson(props.talk.speaker)
     :image="talk.imgUrl || '/images/no-image.jpg'"
     :authors="[{
       name: talk.speaker,
-      avatar: person ? {
+      avatar: person?.imgUrl ? {
         src: person.imgUrl,
         icon: 'i-lucide-image'
       } : undefined

@@ -15,15 +15,24 @@ export function usePeople() {
     () => queryCollection('people').all()
   )
 
-  const people = computed<Person[]>(() => rawPeople.value?.map(person => {
-    const talksForPerson = talks.value?.filter(talk => talk.speaker === person.name) || []
+  const people = computed<Person[]>(() => {
+    const sortedPeople = rawPeople.value?.map(person => {
+      const talksForPerson = talks.value?.filter(talk => talk.speaker === person.name) || []
 
-    return {
+      return {
+        ...person,
+        roles: (person.roles || []).filter(isRole).concat(talksForPerson.length > 0 ? [Role.Speaker] : []),
+        talks: talksForPerson
+      }
+    }).sort((a, b) => b.talks.length - a.talks.length) || []
+
+    const mostTalks = sortedPeople[0]?.talks.length || 0
+
+    return sortedPeople.map(person => ({
       ...person,
-      roles: (person.roles || []).filter(isRole).concat(talksForPerson.length > 0 ? [Role.Speaker] : []),
-      talks: talksForPerson
-    }
-  }).sort((a, b) => b.talks.length - a.talks.length) || [])
+      roles: person.talks.length === mostTalks ?  person.roles.concat([Role.TopSpeaker]) : person.roles
+    }))
+  })
 
   return {
     people

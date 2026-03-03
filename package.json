@@ -15,7 +15,6 @@
     "@iconify-json/simple-icons": "^1.2.70",
     "@iconify-json/vscode-icons": "^1.2.42",
     "@nuxt/content": "^3.11.2",
-    "@nuxt/image": "^2.0.0",
     "@nuxt/ui": "^4.4.0",
     "better-sqlite3": "^12.6.2",
     "minimark": "^0.2.0",

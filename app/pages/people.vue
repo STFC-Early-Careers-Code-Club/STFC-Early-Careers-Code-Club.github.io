@@ -20,6 +20,7 @@ const columns: TableColumn<Person>[] = [
         square: true,
         'aria-label': 'Expand',
         disabled: row.original.talks.length === 0,
+        class: 'cursor-pointer',
         ui: {
           leadingIcon: [
             'transition-transform',

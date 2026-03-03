@@ -60,40 +60,42 @@ useSeoMeta({
       />
     </UPageCTA>
 
-    <div class="flex flex-col sm:flex-row gap-2 justify-center mb-4">
-      <UTabs
-        v-model="style"
-        :items="[
-          {
-            label: 'Tiles',
-            icon: 'i-lucide-grid-2x2',
-            value: 'tiles'
-          },
-          {
-            label: 'Table',
-            icon: 'i-lucide-table',
-            value: 'table'
-          }
-        ]"
-      />
+    <ClientOnly>
+      <div class="flex flex-col sm:flex-row gap-2 justify-center mb-4">
+        <UTabs
+          v-model="style"
+          :items="[
+            {
+              label: 'Tiles',
+              icon: 'i-lucide-grid-2x2',
+              value: 'tiles'
+            },
+            {
+              label: 'Table',
+              icon: 'i-lucide-table',
+              value: 'table'
+            }
+          ]"
+        />
 
-      <UTabs
-        v-model="status"
-        :items="[
-          {
-            label: 'Upcoming',
-            icon: 'i-lucide-message-circle-dashed',
-            value: 'upcoming'
-          },
-          {
-            label: 'Past',
-            icon: 'i-lucide-message-circle',
-            value: 'past'
-          }
-        ]"
-        
-      />
-    </div>
+        <UTabs
+          v-model="status"
+          :items="[
+            {
+              label: 'Upcoming',
+              icon: 'i-lucide-message-circle-dashed',
+              value: 'upcoming'
+            },
+            {
+              label: 'Past',
+              icon: 'i-lucide-message-circle',
+              value: 'past'
+            }
+          ]"
+          
+        />
+      </div>
+    </ClientOnly>
 
     <template v-if="talks">
       <TalkTable v-if="style === 'table'" :talks="talks" />

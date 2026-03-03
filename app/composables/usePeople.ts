@@ -1,7 +1,9 @@
 import type { PeopleCollectionItem } from "@nuxt/content"
 import type { Talk } from "~/lib/sanitiseTalksCollectionItem"
+import { Role, isRole } from "~/lib/roles"
 
-export type Person = PeopleCollectionItem & {
+export type Person = Omit<PeopleCollectionItem, 'roles'> & {
+  roles: Role[]
   talks: Talk[]
 }
 
@@ -18,7 +20,7 @@ export function usePeople() {
 
     return {
       ...person,
-      roles: (person.roles || []).concat(talksForPerson.length > 0 ? ['Speaker'] : []),
+      roles: (person.roles || []).filter(isRole).concat(talksForPerson.length > 0 ? [Role.Speaker] : []),
       talks: talksForPerson
     }
   }).sort((a, b) => b.talks.length - a.talks.length) || [])

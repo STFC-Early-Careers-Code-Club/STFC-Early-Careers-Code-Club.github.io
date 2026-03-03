@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { TableColumn } from '@nuxt/ui';
 import type { Person } from '#imports';
+import { ROLE_ICONS } from '~/lib/roles';
 
 const { people } = usePeople()
 
@@ -52,7 +53,14 @@ const columns: TableColumn<Person>[] = [
       return h(
         'div',
         { class: 'flex gap-1' },
-        roles.map(role => h(UBadge, { variant: role === 'Speaker' ? 'outline' : 'subtle' }, () => role)
+        roles.map(role => h(
+          UBadge,
+          {
+            variant: 'subtle',
+            icon: ROLE_ICONS[role]
+          },
+          () => role
+        )
       ))
     }
   },

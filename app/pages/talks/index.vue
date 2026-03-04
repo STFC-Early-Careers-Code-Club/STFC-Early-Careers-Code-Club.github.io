@@ -44,7 +44,8 @@ useSeoMeta({
       orientation="horizontal"
       :links="[
         {
-          label: 'Check it out'
+          label: 'Check it out',
+          href: todaysTalk.path
         }
       ]"
     >

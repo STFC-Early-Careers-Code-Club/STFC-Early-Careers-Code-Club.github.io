@@ -15,7 +15,7 @@ export function useTalks() {
   )
 
   const talks = computed(() => {
-    return rawTalks.value?.map(sanitiseTalksCollectionItem)
+    return rawTalks.value?.filter(talk => talk.date !== undefined).map(sanitiseTalksCollectionItem)
   })
 
   const now = useNow()

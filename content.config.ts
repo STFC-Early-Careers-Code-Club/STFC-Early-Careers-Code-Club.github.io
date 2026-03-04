@@ -23,7 +23,7 @@ export default defineContentConfig({
         isImgLogo: z.boolean().optional(),
         imgClass: z.string().optional(),
         speaker: z.string(),
-        date: z.date(),
+        date: z.date().optional(),
         recordingUrl: z.string().optional(),
       })
     })

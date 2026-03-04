@@ -1,10 +1,7 @@
 <script setup lang="ts">
 const { seo } = useAppConfig()
 
-const { data: navigation } = await useAsyncData('navigation', () => queryCollectionNavigation('talks').order('date', 'ASC'))
-const { data: files } = useLazyAsyncData('search', () => queryCollectionSearchSections('talks'), {
-  server: false
-})
+const { navigation, files } = await useNavigation()
 
 useHead({
   meta: [

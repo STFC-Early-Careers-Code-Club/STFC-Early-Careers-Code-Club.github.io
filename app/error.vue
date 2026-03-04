@@ -16,10 +16,7 @@ useSeoMeta({
   description: 'We are sorry but this page could not be found.'
 })
 
-const { data: navigation } = await useAsyncData('navigation', () => queryCollectionNavigation('docs'))
-const { data: files } = useLazyAsyncData('search', () => queryCollectionSearchSections('docs'), {
-  server: false
-})
+const { navigation, files } = await useNavigation()
 
 provide('navigation', navigation)
 </script>

@@ -28,3 +28,5 @@ logs
 
 .direnv
 
+# slidev build outputs
+public/slides

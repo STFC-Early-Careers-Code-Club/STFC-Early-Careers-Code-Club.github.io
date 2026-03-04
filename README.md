@@ -10,9 +10,10 @@ Once you have cloned this repo you will first have to install the node modules l
 npm install
 ```
 
-To run the site locally simply run the following command:
+To run the site locally simply run the following commands:
 
 ```sh
+npm run build:slides
 npm run dev
 ```
 

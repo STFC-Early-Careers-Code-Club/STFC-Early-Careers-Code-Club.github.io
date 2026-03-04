@@ -24,3 +24,6 @@ e.g. a commit that adds a new talk would look like this: `feat(content): add con
 Pull requests, like commits, should be prefaced with the prefix that most describes the changes made.
 
 e.g. a pull request that adds a new talk would look like this: `feat(content): Add <TALK_TITLE> talk content`
+
+All pull requests will be reviewed to ensure all content is accurate and has been inputted correctly.
+If you are unsure about anything, simply create the PR and a friendly reviewer will be able to help you out.

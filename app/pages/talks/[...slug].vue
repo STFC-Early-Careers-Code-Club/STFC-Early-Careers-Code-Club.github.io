@@ -37,6 +37,24 @@ const headline = computed(() => findPageHeadline(
   navigation?.value,
   talk.value?.path
 ))
+
+interface TabItem {
+  label: string
+  slot: 'content' | 'recording'
+}
+
+const tabItems = computed<TabItem[]>(() => ([{
+  label: 'Content',
+  slot: 'content' as const
+}] as TabItem[]).concat(talk.value?.recordingUrl
+  ? [
+      {
+        label: 'Recording',
+        slot: 'recording' as const
+      }
+    ]
+  : []
+))
 </script>
 
 <template>
@@ -61,17 +79,11 @@ const headline = computed(() => findPageHeadline(
 
     <UPageBody>
       <UTabs
-        :items="[
-          {
-            label: 'Content',
-            slot: 'content' as const
-          },
-          {
-            label: 'Recording',
-            slot: 'recording' as const
-          }
-        ]"
+        :items="tabItems"
         variant="link"
+        :ui="{
+          trigger: 'cursor-pointer'
+        }"
       >
         <template #content>
           <ContentRenderer
@@ -96,18 +108,6 @@ const headline = computed(() => findPageHeadline(
           <TeamsVideo
             v-if="talk.recordingUrl"
             :url="talk.recordingUrl"
-          />
-          <UAlert
-            v-else
-            @click="navigateTo(
-              'https://github.com/STFC-Early-Careers-Code-Club',
-              { external: true }
-            )"
-            title="There isn't a recording for this talk."
-            description="If this is your talk, and a recording was made, please add the recording by creating a PR on the GitHub."
-            color="warning"
-            variant="subtle"
-            class="cursor-pointer"
           />
         </template>
       </UTabs>

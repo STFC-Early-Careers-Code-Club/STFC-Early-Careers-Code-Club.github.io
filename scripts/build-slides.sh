@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-set -euo pipefail
+set -eu
 
 SLIDEV_DIR="slidev-src"
 OUTPUT_DIR="public/slides"
@@ -16,12 +16,11 @@ for dir in "$SLIDEV_DIR"/*; do
     echo "Building slides for: $TALK_NAME"
     echo "-----------------------------------------"
 
-    pushd "$dir" > /dev/null
-
-    npm install
-    npx slidev build --base "/slides/$TALK_NAME/" --out "../../$OUTPUT_DIR/$TALK_NAME"
-
-    popd > /dev/null
+    (
+      cd "$dir"
+      npm install
+      npx @slidev/cli build --base "/slides/$TALK_NAME/" --out "../../$OUTPUT_DIR/$TALK_NAME"
+    )
   fi
 done
 

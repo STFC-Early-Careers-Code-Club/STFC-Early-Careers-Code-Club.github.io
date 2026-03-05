@@ -1,7 +1,9 @@
 <script setup lang="ts">
-defineProps<{
-  url: string
+const { name } = defineProps<{
+  name: string
 }>()
+
+const url = computed(() => `/slides/${name}`)
 </script>
 
 <template>

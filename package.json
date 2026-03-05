@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "nuxt build",
+    "build": "nuxt build --preset github_pages",
     "build:slides": "sh scripts/build-slides.sh", 
     "dev": "nuxt dev",
     "preview": "nuxt preview",

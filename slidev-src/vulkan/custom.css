@@ -1,0 +1,22 @@
+
+/* Ensure the slide itself is a positioned box */
+.slidev-layout {
+  position: relative;
+}
+
+/* Draw the bar */
+.slidev-layout::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 14px;
+  height: 100%;
+  background: #d32f2f;
+  z-index: 9999; /* make sure it sits on top */
+}
+
+.slidev-layout {
+  outline: 5px solid lime;
+}
+

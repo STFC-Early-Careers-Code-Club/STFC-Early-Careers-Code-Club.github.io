@@ -1,4 +1,4 @@
-import type { TalksCollectionItem } from "@nuxt/content";
+import type { TalksCollectionItem } from '@nuxt/content'
 
 export function sanitiseTalksCollectionItem(item: TalksCollectionItem) {
   return {
@@ -7,4 +7,4 @@ export function sanitiseTalksCollectionItem(item: TalksCollectionItem) {
   }
 }
 
-export type Talk = ReturnType<typeof sanitiseTalksCollectionItem>;
+export type Talk = ReturnType<typeof sanitiseTalksCollectionItem>

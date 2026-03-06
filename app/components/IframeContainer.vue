@@ -5,18 +5,17 @@ defineProps<{
 }>()
 </script>
 
-<
 <template>
   <UCard
     :ui="{
       body: 'p-0 sm:p-0'
-    }" 
+    }"
   >
     <iframe
       :src="url"
       class="w-full border-0 aspect-video"
       allowfullscreen
-    ></iframe>
+    />
 
     <template #footer>
       <UButton

@@ -30,7 +30,10 @@
       ]"
     >
       <template #headline>
-        <UIcon name="i-lucide-cat" class="size-20" />
+        <UIcon
+          name="i-lucide-cat"
+          class="size-20"
+        />
       </template>
     </UPageHero>
 

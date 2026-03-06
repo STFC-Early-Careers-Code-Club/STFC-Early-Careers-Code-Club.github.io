@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+const { count } = defineProps<{
+  count: number
+}>()
 
-const props = defineProps({
-  count: {
-    default: 0,
-  },
-})
-
-const counter = ref(props.count)
+const counter = ref(count)
 </script>
 
 <template>
-  <div flex="~" w="min" border="~ main rounded-md">
+  <div
+    flex="~"
+    w="min"
+    border="~ main rounded-md"
+  >
     <button
       border="r main"
       p="2"
@@ -22,7 +22,10 @@ const counter = ref(props.count)
     >
       -
     </button>
-    <span m="auto" p="2">{{ counter }}</span>
+    <span
+      m="auto"
+      p="2"
+    >{{ counter }}</span>
     <button
       border="l main"
       p="2"

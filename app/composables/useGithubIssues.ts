@@ -6,8 +6,8 @@ interface GithubIssueApiResponse {
   }
   labels: {
     name: string
-  }[],
-  [key: string]: any
+  }[]
+  [key: string]: unknown
 }
 
 export interface GithubIssue {
@@ -28,7 +28,7 @@ export function useGithubIssues() {
     labels: issue.labels.map(label => label.name),
     user: issue.user.login
   })))
-  
+
   return {
     issues,
     error

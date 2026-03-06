@@ -1,7 +1,7 @@
 <script setup lang="ts" generic="T extends string | number">
 const modelValue = defineModel<T>({ required: true })
 
-const props = defineProps<{
+defineProps<{
   options: readonly T[]
 }>()
 

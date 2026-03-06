@@ -1,13 +1,13 @@
 <script setup lang="ts">
 type Status = 'upcoming' | 'past'
-function isStatus(value: any): value is Status {
+function isStatus(value: string): value is Status {
   return value === 'upcoming' || value === 'past'
 }
 const status = useQueryParam<Status>('status', val => isStatus(val) ? val : 'upcoming')
 
 const STYLE_QUERY_KEY = 'style'
 type Style = 'table' | 'tiles'
-function isStyle(value: any): value is Style {
+function isStyle(value: string): value is Style {
   return value === 'table' || value === 'tiles'
 }
 const style = useQueryParam<Style>(STYLE_QUERY_KEY, val => isStyle(val) ? val : 'tiles')
@@ -18,8 +18,8 @@ const talks = computed(() => {
   return status.value === 'upcoming' ? upcomingTalks.value?.toReversed() : pastTalks.value
 })
 
-const title = "Talks"
-const description = "Browse through our collection of talks."
+const title = 'Talks'
+const description = 'Browse through our collection of talks.'
 
 useSeoMeta({
   title,
@@ -50,15 +50,15 @@ useSeoMeta({
       ]"
     >
       <img
-        :src="todaysTalk.imgUrl || '/images/no-image.jpg'"
         :key="todaysTalk.path"
+        :src="todaysTalk.imgUrl || '/images/no-image.jpg'"
         :alt="`Image for ${todaysTalk.title}`"
         class="w-full h-48 rounded-md mb-2"
         :class="todaysTalk.imgUrl
           ? `${todaysTalk.imgClass} ${todaysTalk.isImgLogo ? 'object-contain p-2' : 'object-cover'}`
           : 'object-contain dark:invert bg-white'
         "
-      />
+      >
     </UPageCTA>
 
     <ClientOnly>
@@ -93,20 +93,22 @@ useSeoMeta({
               value: 'past'
             }
           ]"
-          
         />
       </div>
     </ClientOnly>
 
     <template v-if="talks">
-      <TalkTable v-if="style === 'table'" :talks="talks" />
+      <TalkTable
+        v-if="style === 'table'"
+        :talks="talks"
+      />
 
       <UBlogPosts v-else>
         <TalkBlogEntry
           v-for="talk in talks"
           :key="talk.id"
           :talk="talk"
-        /> 
+        />
       </UBlogPosts>
     </template>
   </UPageBody>

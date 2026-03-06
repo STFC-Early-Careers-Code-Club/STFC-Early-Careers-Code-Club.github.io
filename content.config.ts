@@ -9,7 +9,7 @@ export default defineContentConfig({
         name: z.string(),
         title: z.string(),
         roles: z.array(z.string()),
-        imgUrl: z.string().optional(),
+        imgUrl: z.string().optional()
       })
     }),
 
@@ -24,7 +24,7 @@ export default defineContentConfig({
         imgClass: z.string().optional(),
         speaker: z.string(),
         date: z.date().optional(),
-        recordingUrl: z.string().optional(),
+        recordingUrl: z.string().optional()
       })
     })
   }

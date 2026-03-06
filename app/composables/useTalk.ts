@@ -1,4 +1,4 @@
-import { sanitiseTalksCollectionItem } from "~/lib/sanitiseTalksCollectionItem"
+import { sanitiseTalksCollectionItem } from '~/lib/sanitiseTalksCollectionItem'
 
 export async function useTalk(path: string) {
   const { data: talk } = await useAsyncData('talk-' + path, async () => {

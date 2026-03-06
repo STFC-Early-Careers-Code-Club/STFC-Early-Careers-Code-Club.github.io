@@ -19,7 +19,7 @@ const speaker = usePerson(talk.value.speaker)
 
 const { data: surround } = await useAsyncData(`${route.path}-surround`, () => {
   return queryCollectionItemSurroundings('talks', route.path, {
-    fields: ['description'],
+    fields: ['description']
   }).order('date', 'ASC')
 })
 
@@ -92,15 +92,15 @@ const tabItems = computed<TabItem[]>(() => ([{
           />
           <UAlert
             v-else
-            @click="navigateTo(
-              'https://github.com/STFC-Early-Careers-Code-Club',
-              { external: true }
-            )"
             title="There isn't any content for this talk."
             description="If this is your talk, please add some content by creating a PR on the GitHub."
             color="warning"
             variant="subtle"
             class="cursor-pointer"
+            @click="navigateTo(
+              'https://github.com/STFC-Early-Careers-Code-Club',
+              { external: true }
+            )"
           />
         </template>
 

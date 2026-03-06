@@ -3,14 +3,14 @@ type Status = 'upcoming' | 'past'
 function isStatus(value: string): value is Status {
   return value === 'upcoming' || value === 'past'
 }
-const status = useQueryParam<Status>('status', val => isStatus(val) ? val : 'upcoming')
+const status = useQueryParam<Status>('status', val => val && isStatus(val) ? val : 'upcoming')
 
 const STYLE_QUERY_KEY = 'style'
 type Style = 'table' | 'tiles'
 function isStyle(value: string): value is Style {
   return value === 'table' || value === 'tiles'
 }
-const style = useQueryParam<Style>(STYLE_QUERY_KEY, val => isStyle(val) ? val : 'tiles')
+const style = useQueryParam<Style>(STYLE_QUERY_KEY, val => val && isStyle(val) ? val : 'tiles')
 
 const { pastTalks, upcomingTalks, todaysTalk } = useTalks()
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Talk } from '~/lib/sanitiseTalksCollectionItem';
+import type { Talk } from '~/lib/sanitiseTalksCollectionItem'
 
 const props = defineProps<{
   talk: Talk

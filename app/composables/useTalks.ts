@@ -1,11 +1,11 @@
-import { sanitiseTalksCollectionItem } from "~/lib/sanitiseTalksCollectionItem"
+import { sanitiseTalksCollectionItem, type Talk } from '~/lib/sanitiseTalksCollectionItem'
 
 function isSameDay(date1: Date, date2: Date) {
   return (
-    date1.getFullYear() === date2.getFullYear() &&
-    date1.getMonth() === date2.getMonth() &&
-    date1.getDate() === date2.getDate()
-  );
+    date1.getFullYear() === date2.getFullYear()
+    && date1.getMonth() === date2.getMonth()
+    && date1.getDate() === date2.getDate()
+  )
 }
 
 export function useTalks() {
@@ -14,9 +14,15 @@ export function useTalks() {
     () => queryCollection('talks').order('date', 'DESC').all()
   )
 
-  const talks = computed(() => {
-    return rawTalks.value?.filter(talk => talk.date).map(sanitiseTalksCollectionItem)
-  })
+  const talks = computed(() => rawTalks.value?.reduce((acc, talk) => {
+    try {
+      const sanitisedTalk = sanitiseTalksCollectionItem(talk)
+      acc.push(sanitisedTalk)
+    } catch {
+      // Ignore talks with invalid dates
+    }
+    return acc
+  }, [] as Talk[]))
 
   const now = useNow()
 

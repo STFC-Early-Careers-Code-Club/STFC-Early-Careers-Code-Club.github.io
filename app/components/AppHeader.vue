@@ -19,7 +19,10 @@ const { header } = useAppConfig()
 
     <template #title>
       <div class="flex items-center gap-1">
-        <UIcon name="i-lucide-cat" class="size-5 shrink-0" />
+        <UIcon
+          name="i-lucide-cat"
+          class="size-5 shrink-0"
+        />
 
         <span>
           {{ header.title }}

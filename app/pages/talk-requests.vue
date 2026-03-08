@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import type { TableColumn, TableRow } from '@nuxt/ui';
-import type { GithubIssue } from '~/composables/useGithubIssues';
+import type { TableColumn, TableRow } from '@nuxt/ui'
+import type { GithubIssue } from '~/composables/useGithubIssues'
 
 const { talkRequests, error } = useTalkRequests()
 
 const columns: TableColumn<GithubIssue>[] = [
   {
     accessorKey: 'title',
-    header: 'Title',
+    header: 'Title'
   },
   {
     accessorKey: 'user',
-    header: 'Requested by',
+    header: 'Requested by'
   }
 ]
 
@@ -19,8 +19,8 @@ function onTalkRequestSelected(_: Event, row: TableRow<GithubIssue>) {
   navigateTo(row.original.url, { external: true })
 }
 
-const title = "Talk Requests"
-const description = "See the talks that have been requested by the community, or create a new request to present a talk yourself."
+const title = 'Talk Requests'
+const description = 'See the talks that have been requested by the community, or create a new request to present a talk yourself.'
 
 useSeoMeta({
   title,
@@ -31,7 +31,10 @@ useSeoMeta({
 </script>
 
 <template>
-  <UPageHeader :title="title" :description="description" />
+  <UPageHeader
+    :title="title"
+    :description="description"
+  />
 
   <UPageBody>
     <UButton
@@ -44,12 +47,17 @@ useSeoMeta({
       v-if="talkRequests"
       :data="talkRequests"
       :columns="columns"
-      @select="onTalkRequestSelected"
       class="flex-1"
       :ui="{
         tr: 'cursor-pointer'
       }"
+      @select="onTalkRequestSelected"
     />
-    <p v-else-if="error" class="text-red-500">Failed to load talk requests: {{ error.message }}</p>
+    <p
+      v-else-if="error"
+      class="text-red-500"
+    >
+      Failed to load talk requests: {{ error.message }}
+    </p>
   </UPageBody>
 </template>

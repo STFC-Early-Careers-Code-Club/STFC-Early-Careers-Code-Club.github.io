@@ -1,6 +1,6 @@
-import type { PeopleCollectionItem } from "@nuxt/content"
-import type { Talk } from "~/lib/sanitiseTalksCollectionItem"
-import { Role, isRole } from "~/lib/roles"
+import type { PeopleCollectionItem } from '@nuxt/content'
+import type { Talk } from '~/lib/sanitiseTalksCollectionItem'
+import { Role, isRole } from '~/lib/roles'
 
 export type Person = Omit<PeopleCollectionItem, 'roles'> & {
   roles: Role[]
@@ -16,7 +16,7 @@ export function usePeople() {
   )
 
   const people = computed<Person[]>(() => {
-    const sortedPeople = rawPeople.value?.map(person => {
+    const sortedPeople = rawPeople.value?.map((person) => {
       const talksForPerson = talks.value?.filter(talk => talk.speaker === person.name) || []
 
       return {
@@ -30,7 +30,7 @@ export function usePeople() {
 
     return sortedPeople.map(person => ({
       ...person,
-      roles: person.talks.length === mostTalks ?  person.roles.concat([Role.TopSpeaker]) : person.roles
+      roles: person.talks.length === mostTalks ? person.roles.concat([Role.TopSpeaker]) : person.roles
     }))
   })
 

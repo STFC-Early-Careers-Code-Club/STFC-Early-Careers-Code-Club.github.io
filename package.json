@@ -4,12 +4,13 @@
   "type": "module",
   "scripts": {
     "build": "nuxt build --preset github_pages",
-    "build:slides": "sh scripts/build-slides.sh", 
+    "build:slides": "sh scripts/build-slides.sh",
     "dev": "nuxt dev",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "lint": "eslint .",
-    "typecheck": "nuxt typecheck"
+    "lint": "eslint . --max-warnings=0",
+    "typecheck": "nuxt typecheck",
+    "prepare": "husky"
   },
   "dependencies": {
     "@iconify-json/lucide": "^1.2.90",
@@ -29,6 +30,7 @@
   "devDependencies": {
     "@nuxt/eslint": "^1.15.1",
     "eslint": "^9.21.0",
+    "husky": "^9.1.7",
     "typescript": "^5.9.3",
     "vue-tsc": "^3.2.4"
   },

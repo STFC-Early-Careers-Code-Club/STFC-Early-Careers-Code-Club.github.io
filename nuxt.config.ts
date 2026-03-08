@@ -4,7 +4,7 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxt/ui',
     '@nuxt/content',
-    'nuxt-charts',
+    'nuxt-charts'
   ],
 
   devtools: {
@@ -53,5 +53,5 @@ export default defineNuxtConfig({
 
   icon: {
     provider: 'iconify'
-  },
+  }
 })

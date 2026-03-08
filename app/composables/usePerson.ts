@@ -1,4 +1,4 @@
-import type { Person } from "#imports";
+import type { Person } from '#imports'
 
 export function usePerson(name: string) {
   const { data: person } = useAsyncData('person-' + name, async () => {

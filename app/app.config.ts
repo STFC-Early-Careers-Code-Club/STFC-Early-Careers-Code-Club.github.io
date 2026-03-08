@@ -37,7 +37,7 @@ export default defineAppConfig({
     }]
   },
   toc: {
-    title: 'Table of Contents',
+    title: 'Table of Contents'
     // bottom: {
     //   title: 'Community',
     //   edit: 'https://github.com/nuxt-ui-templates/docs/edit/main/content',

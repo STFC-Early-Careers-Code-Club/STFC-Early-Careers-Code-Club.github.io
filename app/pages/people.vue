@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { TableColumn } from '@nuxt/ui';
-import type { Person } from '#imports';
-import { ROLE_ICONS } from '~/lib/roles';
+import type { TableColumn } from '@nuxt/ui'
+import type { Person } from '#imports'
+import { ROLE_ICONS } from '~/lib/roles'
 
 const { people } = usePeople()
 
@@ -14,20 +14,20 @@ const columns: TableColumn<Person>[] = [
     id: 'expand',
     cell: ({ row }) =>
       h(UButton, {
-        color: 'neutral',
-        variant: 'ghost',
-        icon: 'i-lucide-chevron-down',
-        square: true,
+        'color': 'neutral',
+        'variant': 'ghost',
+        'icon': 'i-lucide-chevron-down',
+        'square': true,
         'aria-label': 'Expand',
-        disabled: row.original.talks.length === 0,
-        class: 'cursor-pointer',
-        ui: {
+        'disabled': row.original.talks.length === 0,
+        'class': 'cursor-pointer',
+        'ui': {
           leadingIcon: [
             'transition-transform',
             row.getIsExpanded() ? 'duration-200 rotate-180' : ''
           ]
         },
-        onClick: () => row.toggleExpanded()
+        'onClick': () => row.toggleExpanded()
       })
   },
   {
@@ -38,10 +38,12 @@ const columns: TableColumn<Person>[] = [
       return h(UUser, {
         name,
         description: title,
-        avatar: imgUrl ? {
-          src: imgUrl,
-          icon: 'i-lucide-image'
-        } : undefined
+        avatar: imgUrl
+          ? {
+              src: imgUrl,
+              icon: 'i-lucide-image'
+            }
+          : undefined
       })
     }
   },
@@ -62,17 +64,17 @@ const columns: TableColumn<Person>[] = [
           },
           () => role
         )
-      ))
+        ))
     }
   },
   {
     header: 'Talks',
-    accessorFn: row => row.talks.length,
+    accessorFn: row => row.talks.length
   }
 ]
 
-const title = "People"
-const description = "Meet the people who have contributed to ECCC."
+const title = 'People'
+const description = 'Meet the people who have contributed to ECCC.'
 
 useSeoMeta({
   title,
@@ -83,7 +85,10 @@ useSeoMeta({
 </script>
 
 <template>
-  <UPageHeader :title="title" :description="description" />
+  <UPageHeader
+    :title="title"
+    :description="description"
+  />
 
   <UPageBody>
     <UTable
@@ -92,7 +97,11 @@ useSeoMeta({
     >
       <template #expanded="{ row }">
         <UBlogPosts>
-          <TalkBlogEntry v-for="talk in row.original.talks" :talk="talk" />
+          <TalkBlogEntry
+            v-for="talk in row.original.talks"
+            :key="talk.path"
+            :talk="talk"
+          />
         </UBlogPosts>
       </template>
     </UTable>

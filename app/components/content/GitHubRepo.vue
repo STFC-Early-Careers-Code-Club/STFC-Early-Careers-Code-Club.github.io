@@ -6,8 +6,8 @@ const match = props.url.match(/github\.com\/([^/]+)\/([^/]+)/)
 const owner = match?.[1]
 const repo = match?.[2]?.replace(/\.git$/, '')
 
-const ogImage =
-  owner && repo
+const ogImage
+  = owner && repo
     ? `https://opengraph.githubassets.com/1/${owner}/${repo}`
     : undefined
 
@@ -20,7 +20,7 @@ const ownerImage = owner
   <UBlogPost
     :title="repo"
     description="View repository on GitHub"
-    :image="ogImage" 
+    :image="ogImage"
     :authors="[{
       name: owner,
       avatar: {

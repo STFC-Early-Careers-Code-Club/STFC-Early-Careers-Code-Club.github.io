@@ -20,7 +20,7 @@ const speaker = usePerson(talk.value.speaker)
 const { data: surround } = await useAsyncData(`${route.path}-surround`, () => {
   return queryCollectionItemSurroundings('talks', route.path, {
     fields: ['description']
-  }).order('date', 'ASC')
+  }).where('date', 'IS NOT NULL').order('date', 'ASC')
 })
 
 const title = talk.value.seo?.title || talk.value.title

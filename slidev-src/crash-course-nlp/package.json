@@ -1,0 +1,17 @@
+{
+  "name": "crash-course-nlp",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "slidev build",
+    "dev": "slidev --open",
+    "export": "slidev export"
+  },
+  "dependencies": {
+    "@ktym4a/slidev-theme-ktym4a": "^0.3.2",
+    "@slidev/cli": "^52.14.1",
+    "@slidev/theme-default": "latest",
+    "@slidev/theme-seriph": "latest",
+    "vue": "^3.5.29"
+  }
+}

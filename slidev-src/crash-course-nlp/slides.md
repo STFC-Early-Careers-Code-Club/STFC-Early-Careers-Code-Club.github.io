@@ -109,7 +109,6 @@ transition: slide-left
 
 # Brief History of NLP
 
-
 <div class="flex justify-center">
   <div class="scale-200 origin-top">  <!-- adjust scale here -->
 
@@ -360,34 +359,34 @@ layout: two-cols
 
 ::right::
 
-<br> 
+<br>
 
-  ```python
-  import nltk
-  from nltk.tokenize import word_tokenize
+```python
+import nltk
+from nltk.tokenize import word_tokenize
 
-  nltk.download('punkt')
-  text = "Hello, how are you doing?"
-  tokens = word_tokenize(text)
-  print(tokens)
-  ```
+nltk.download('punkt')
+text = "Hello, how are you doing?"
+tokens = word_tokenize(text)
+print(tokens)
+```
 
-  <br>
+<br>
 
-  ```python
-  from transformers import BertTokenizer, BertModel
-  import torch
+```python
+from transformers import BertTokenizer, BertModel
+import torch
 
-  tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
-  model = BertModel.from_pretrained("bert-base-uncased")
+tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+model = BertModel.from_pretrained("bert-base-uncased")
 
-  text = "Transformers are amazing!"
-  inputs = tokenizer(text, return_tensors="pt")
-  with torch.no_grad():
-      outputs = model(**inputs)
-      embeddings = outputs.last_hidden_state.mean(dim=1)
-  print(embeddings)
-  ```
+text = "Transformers are amazing!"
+inputs = tokenizer(text, return_tensors="pt")
+with torch.no_grad():
+    outputs = model(**inputs)
+    embeddings = outputs.last_hidden_state.mean(dim=1)
+print(embeddings)
+```
 
 ---
 layout: center

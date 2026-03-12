@@ -1,0 +1,60 @@
+name: Generate Talk PR on Issue Approval
+
+on:
+  issues:
+    types: [labeled]
+
+jobs:
+  generate-pr:
+    if: github.event.label.name == 'approved'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create new branch
+        run: |
+          BRANCH="issue-${{ github.event.issue.number }}-generated"
+          git checkout -b "$BRANCH"
+          echo "$BRANCH" > branchname.txt
+
+      - name: Create file from issue details
+        run: |
+          FILE="talk-${{ github.event.issue.number }}.md"
+          echo "---" > $FILE
+          echo "title: ${{ github.event.issue.talk_title }}" >> $FILE
+          echo "speaker: ${{ github.event.issue.speaker_name }}" >> $FILE
+          echo "pronouns: ${{ github.event.issue.speaker_pronouns }}" >> $FILE
+          echo "date: ${{ github.event.issue.talk_date }}" >> $FILE
+          echo "---" >> $FILE
+          echo "${{ github.event.issue.talk_abstract }}" >> $FILE
+
+      - name: Commit changes
+        run: |
+          BRANCH=$(cat branchname.txt)
+          git add .
+          git commit -m "feat(content): create talk content for issue #${{ github.event.issue.number }}"
+          git push origin "$BRANCH"
+
+      - name: Create pull request
+        run: |
+          BRANCH=$(cat branchname.txt)
+          gh pr create \
+            --title "feat(content): Add Talk #${{ github.event.issue.number }}" \
+            --body "
+            Automatically generated PR corresponding to approved issue #${{ github.event.issue.number }}.
+            
+            Speaker Name: ${{ github.event.issue.speaker_name }}
+            Speaker Pronouns: ${{ github.event.issue.speaker_pronouns }}
+            Talk Title: ${{ github.event.issue.talk_title }}
+            Talk Date: ${{ github.event.issue.talk_date }}
+            " \
+            --base main \
+            --head "$BRANCH"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

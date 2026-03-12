@@ -18,6 +18,7 @@ for dir in "$SLIDEV_DIR"/*; do
 
     (
       cd "$dir"
+      rm -rf node_modules package-lock.json
       npm install
       npx @slidev/cli build --base "/slides/$TALK_NAME/" --out "../../$OUTPUT_DIR/$TALK_NAME"
     )

@@ -1,8 +1,10 @@
 ---
 title: Designing and Implementing a Graph-Based Architecture for CodeEntropy
 speaker: Harry Swift
-date: 25-03-2026
+date: 2026-03-25
 imgUrl: /images/biosim-codeentropy_logo_light.png
+isImgLogo: true
+imgClass: bg-neutral-600
 description: A look at the design and implementation of a graph-based architecture introduced into the CodeEntropy codebase.
 ---
 

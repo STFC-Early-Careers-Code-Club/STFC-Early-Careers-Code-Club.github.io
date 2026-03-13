@@ -3,7 +3,6 @@ title: Graphs: Ruining the Travelling Salesman’s Day Since 1930
 speaker: Harry Swift
 date: 2026-03-18
 description: A tour of graph algorithms and classic problems in computer science, from traversal and shortest paths to the Travelling Salesman Problem.
-recordingUrl: 
 ---
 
 Graphs are one of the most widely used abstractions in computer science. By representing systems as nodes connected by edges, they provide a powerful way to model relationships between objects and reason about complex problems in a structured way.

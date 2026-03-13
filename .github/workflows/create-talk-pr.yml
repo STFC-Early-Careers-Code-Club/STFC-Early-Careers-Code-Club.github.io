@@ -31,16 +31,47 @@ jobs:
           git checkout -b "$BRANCH"
           echo "$BRANCH" > branchname.txt
 
+      - name: Extract form fields from Issue body
+        id: form
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = context.payload.issue?.body ?? '';
+
+            // Generic section extractor: gets text after "### <Label>" until next "###" or end.
+            function getSection(label) {
+              const re = new RegExp(
+                `(^|\\n)###\\s+${label.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\$&')}\\s*\\n+([\\s\\S]*?)(?=\\n###\\s+|$)`,
+                'i'
+              );
+              const m = body.match(re);
+              return m ? m[2].trim() : '';
+            }
+
+            const fields = {
+              talk_title:        getSection('Talk Title'),
+              speaker_name:      getSection('Speaker Name'),
+              speaker_pronouns:  getSection('Speaker Pronouns'),
+              talk_date:         getSection('Date'),
+              talk_abstract:     getSection('Talk Abstract'),
+            };
+
+            for (const [k,v] of Object.entries(fields)) {
+              core.setOutput(k, v);
+            }
+
       - name: Create file from issue details
         run: |
           FILE="talk-${{ github.event.issue.number }}.md"
-          echo "---" > $FILE
-          echo "title: ${{ github.event.issue.talk_title }}" >> $FILE
-          echo "speaker: ${{ github.event.issue.speaker_name }}" >> $FILE
-          echo "pronouns: ${{ github.event.issue.speaker_pronouns }}" >> $FILE
-          echo "date: ${{ github.event.issue.talk_date }}" >> $FILE
-          echo "---" >> $FILE
-          echo "${{ github.event.issue.talk_abstract }}" >> $FILE
+          {
+            echo "---"
+            echo "title: ${{ steps.form.outputs.talk_title }}"
+            echo "speaker: ${{ steps.form.outputs.speaker_name }}"
+            echo "pronouns: ${{ steps.form.outputs.speaker_pronouns }}"
+            echo "date: ${{ steps.form.outputs.talk_date }}"
+            echo "---"
+            echo "${{ steps.form.outputs.talk_abstract }}"
+          } > "$FILE"
 
       - name: Commit changes
         run: |
@@ -59,18 +90,22 @@ jobs:
 
       - name: Create pull request
         env:
-          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          GH_TOKEN: ${{ steps.app-token.outputs.token || secrets.GITHUB_TOKEN }}
         run: |
           BRANCH=$(cat branchname.txt)
           gh pr create \
             --title "feat(content): Add Talk #${{ github.event.issue.number }}" \
             --body "
-            Automatically generated PR corresponding to approved issue #${{ github.event.issue.number }}.
-            
-            Speaker Name: ${{ github.event.issue.speaker_name }}
-            Speaker Pronouns: ${{ github.event.issue.speaker_pronouns }}
-            Talk Title: ${{ github.event.issue.talk_title }}
-            Talk Date: ${{ github.event.issue.talk_date }}
+            Auto-generated PR corresponding to approved issue #${{ github.event.issue.number }}.
+
+            Speaker Name: ${{ steps.form.outputs.speaker_name }}
+            Speaker Pronouns: ${{ steps.form.outputs.speaker_pronouns }}
+            Talk Title: ${{ steps.form.outputs.talk_title }}
+            Talk Date: ${{ steps.form.outputs.talk_date }}
+            Talk Abstract: ${{ steps.form.outputs.talk_abstract }}
             " \
             --base main \
-            --head "$BRANCH"
+            --head "$BRANCH" \
+            --reviewer jcornall \
+            --label "Talk Request"
+

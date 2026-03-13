@@ -1,0 +1,72 @@
+name: Request to Present a Talk
+description: Suggest a talk you would like to present at a future EC Code Club session
+title: "Talk Request: <Short Title>"
+labels: ["Talk Request"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        
+        ## Request to Present a Talk  
+        Please complete the sections below.
+        
+
+  - type: input
+    id: talk_title
+    attributes:
+      label: "Talk Title"
+      description: "The full title of your talk"
+      placeholder: "e.g. A Brief History of Time: The Squeakquel"
+    validations:
+      required: true
+
+  - type: input
+    id: speaker_name
+    attributes:
+      label: "Speaker Name"
+      description: "Your full name"
+      placeholder: "e.g. Jane Doe"
+    validations:
+      required: true
+
+  - type: input
+    id: speaker_pronouns
+    attributes:
+      label: "Speaker Pronouns"
+      description: "Your preferred pronouns"
+      placeholder: "Prefer not to say"
+    validations:
+      required: false
+
+  - type: input
+    id: talk_date
+    attributes:
+      label: "Date"
+      description: "The proposed date of your talk"
+      placeholder: "YYYY-MM-DD"
+    validations:
+      required: false
+
+  - type: textarea
+    id: talk_abstract
+    attributes:
+      label: "Talk Abstract"
+      description: "A short abstract or description of the talk"
+      placeholder: "Write a short paragraph..."
+      render: markdown
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        
+        ## 🏁 Final Step  
+        Submit the issue.  
+        
+        Once this issue has been approved, the automation workflow will generate:
+        - a branch  
+        - a content file  
+        - a pull request
+        

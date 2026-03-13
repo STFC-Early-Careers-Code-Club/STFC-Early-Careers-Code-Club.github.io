@@ -1,0 +1,173 @@
+name: Generate Talk PR on Issue Approval
+
+on:
+  issues:
+    types: [labeled]
+
+jobs:
+  generate-pr:
+    if: github.event.label.name == 'approved'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: read
+
+    steps:
+      
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # important: get full history so pulls/rebases work
+
+      - name: Set Git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Extract form fields from Issue body
+        id: form
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = context.payload.issue?.body ?? '';
+
+            // Proper escaping (no &amp;, real backslashes)
+            function getSection(label) {
+              const escaped = label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+              const regex = new RegExp(
+                `(^|\\n)###\\s+${escaped}\\s*\\n+([\\s\\S]*?)(?=\\n###\\s+|$)`,
+                'i'
+              );
+              const match = body.match(regex);
+              return match ? match[2].trim() : '';
+            }
+
+            const fields = {
+              talk_title:        getSection('Talk Title'),
+              speaker_name:      getSection('Speaker Name'),
+              speaker_pronouns:  getSection('Speaker Pronouns'),
+              talk_date:         getSection('Date'),
+              talk_abstract:     getSection('Talk Abstract'),
+            };
+
+            console.log("Extracted fields:", fields);
+
+            for (const [k, v] of Object.entries(fields)) {
+              core.setOutput(k, v);
+            }
+
+      - name: Generate slug from talk title
+        id: slug
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = core.getInput('title') || `${{ steps.form.outputs.talk_title }}`;
+            if (!title || title.trim() === "") {
+              core.setOutput("slug", `issue-${{ github.event.issue.number }}`);
+              return;
+            }
+
+            // Take first 3 words only
+            const first3 = title
+              .trim()
+              .split(/\s+/)
+              .slice(0, 3)
+              .join(' ');
+
+            // Slugify:
+            // - lowercase
+            // - strip punctuation
+            // - replace non alphanumerics with hyphens
+            // - collapse repeated hyphens
+            // - trim hyphens
+            let slug = first3
+              .normalize("NFKD").replace(/[\u0300-\u036f]/g, "")   // strip accents
+              .toLowerCase()
+              .replace(/&/g, " and ")
+              .replace(/[^a-z0-9]+/g, "-")
+              .replace(/-{2,}/g, "-")
+              .replace(/^-+|-+$/g, "");
+
+            if (!slug) slug = `issue-${{ github.event.issue.number }}`;
+
+            core.setOutput("slug", slug);
+
+      - name: Create new branch
+        id: branch
+        run: |
+          SLUG="${{ steps.slug.outputs.slug }}"
+          BRANCH="${SLUG}-${{ github.event.issue.number }}"
+          git checkout -b "$BRANCH"
+          echo "name=$BRANCH" >> "$GITHUB_OUTPUT"
+
+      - name: Create file from issue details
+        run: |
+          SLUG="${{ steps.slug.outputs.slug }}"
+          FILE="content/talks/${SLUG}.md"
+          cat <<'EOF' > "$FILE"
+          ---
+          title: ${{ steps.form.outputs.talk_title }}
+          speaker: ${{ steps.form.outputs.speaker_name }}
+          pronouns: ${{ steps.form.outputs.speaker_pronouns }}
+          date: ${{ steps.form.outputs.talk_date }}
+          ---
+          ${{ steps.form.outputs.talk_abstract }}
+          EOF
+
+      - name: Commit changes
+        run: |
+          BRANCH="${{ steps.branch.outputs.name }}"
+          git add .
+          git commit -m "feat(content): create talk content for issue #${{ github.event.issue.number }}"
+          git push origin "$BRANCH"
+
+      - name: Generate GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.GH_APP_ID }}
+          private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+
+      - name: Create pull request
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token || secrets.GITHUB_TOKEN }}
+        run: |
+          BRANCH="${{ steps.branch.outputs.name }}"
+          SLUG="${{ steps.slug.outputs.slug }}"
+          cat > pr_body.md <<'EOF'
+          Auto-generated PR corresponding to approved issue #${{ github.event.issue.number }}.
+
+          **Speaker Name:** ${{ steps.form.outputs.speaker_name }}
+          **Speaker Pronouns:** ${{ steps.form.outputs.speaker_pronouns }}
+          **Talk Title:** ${{ steps.form.outputs.talk_title }}
+          **Talk Date:** ${{ steps.form.outputs.talk_date }}
+          **Talk Abstract:**
+          ${{ steps.form.outputs.talk_abstract }}
+          EOF
+
+          gh pr create \
+            --title "feat(content): Add ${SLUG}.md" \
+            --body-file pr_body.md \
+            --base main \
+            --head "$BRANCH" \
+            --label "Talk Request"
+
+      - name: Request team reviewers
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token || secrets.GITHUB_TOKEN }}
+        run: |
+          BRANCH="${{ steps.branch.outputs.name }}"
+
+          # Get PR number for this branch
+          PR_NUMBER=$(gh pr list --head "$BRANCH" --json number --jq '.[0].number')
+
+          echo "Requesting team reviewers for PR #$PR_NUMBER"
+
+          # Send API request to add the team
+          gh api \
+            --method POST \
+            repos/${{ github.repository }}/pulls/$PR_NUMBER/requested_reviewers \
+            --field team_reviewers='["ec-code-club-committee"]'
+

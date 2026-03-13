@@ -143,7 +143,6 @@ jobs:
           **Speaker Pronouns:** ${{ steps.form.outputs.speaker_pronouns }}
           **Talk Title:** ${{ steps.form.outputs.talk_title }}
           **Talk Date:** ${{ steps.form.outputs.talk_date }}
-
           **Talk Abstract:**
           ${{ steps.form.outputs.talk_abstract }}
           EOF
@@ -155,21 +154,20 @@ jobs:
             --head "$BRANCH" \
             --label "Talk Request"
 
+      - name: Request team reviewers
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token || secrets.GITHUB_TOKEN }}
+        run: |
+          BRANCH="${{ steps.branch.outputs.name }}"
 
-      # - name: Request team reviewers
-      #   env:
-      #     GH_TOKEN: ${{ steps.app-token.outputs.token || secrets.GITHUB_TOKEN }}
-      #   run: |
-      #     BRANCH="${{ steps.branch.outputs.name }}"
+          # Get PR number for this branch
+          PR_NUMBER=$(gh pr list --head "$BRANCH" --json number --jq '.[0].number')
 
-      #     # Get PR number for this branch
-      #     PR_NUMBER=$(gh pr list --head "$BRANCH" --json number --jq '.[0].number')
+          echo "Requesting team reviewers for PR #$PR_NUMBER"
 
-      #     echo "Requesting team reviewers for PR #$PR_NUMBER"
-
-      #     # Send API request to add the team
-      #     gh api \
-      #       --method POST \
-      #       repos/${{ github.repository }}/pulls/$PR_NUMBER/requested_reviewers \
-      #       --field team_reviewers='["ec-code-club-committee"]'
+          # Send API request to add the team
+          gh api \
+            --method POST \
+            repos/${{ github.repository }}/pulls/$PR_NUMBER/requested_reviewers \
+            --field team_reviewers='["ec-code-club-committee"]'
 

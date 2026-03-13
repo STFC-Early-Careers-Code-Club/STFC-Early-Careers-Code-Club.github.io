@@ -4,14 +4,13 @@ speaker: Harry Swift
 date: 25-03-2026
 imgUrl: /images/biosim-codeentropy_logo_light.png
 description: A look at the design and implementation of a graph-based architecture introduced into the CodeEntropy codebase.
-recordingUrl: 
 ---
 
-CodeEntropy is a scientific code used to compute absolute entropies from molecular dynamics simulations. As the project has evolved from an academic prototype into maintained research software, parts of its internal architecture required redesign.
+CodeEntropy is a scientific code used to compute absolute entropies from molecular dynamics simulations. As the project evolved from an academic prototype into maintained research software, parts of its internal architecture required redesign.
 
-In this talk I'll describe the process of designing and implementing a new graph-based architecture for CodeEntropy. I'll discuss the motivation for introducing a graph model, the design decisions behind the implementation, and the challenges of integrating the new architecture into an existing scientific codebase.
+This talk describes the process of designing and implementing a new graph-based architecture for CodeEntropy. It discusses the motivation for introducing a graph model, the design decisions behind the implementation, and the challenges involved in integrating the new architecture into an existing scientific codebase.
 
-In this talk, the following will be covered:
+In this talk, the following are covered:
 
 - The role of CodeEntropy in analysing molecular dynamics simulations
 - The architectural limitations of the previous implementation

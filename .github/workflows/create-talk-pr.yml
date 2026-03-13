@@ -94,15 +94,17 @@ jobs:
             core.setOutput("slug", slug);
 
       - name: Create new branch
+        id: branch
         run: |
           SLUG="${{ steps.slug.outputs.slug }}"
           BRANCH="${SLUG}-${{ github.event.issue.number }}"
-          git checkout -b "$BRANCH
+          git checkout -b "$BRANCH"
+          echo "name=$BRANCH" >> "$GITHUB_OUTPUT"
 
       - name: Create file from issue details
         run: |
           SLUG="${{ steps.slug.outputs.slug }}"
-          FILE="talk-${SLUG}.md"
+          FILE="${SLUG}.md"
           cat <<'EOF' > "$FILE"
           ---
           title: ${{ steps.form.outputs.talk_title }}
@@ -115,7 +117,7 @@ jobs:
 
       - name: Commit changes
         run: |
-          BRANCH=$(cat branchname.txt)
+          BRANCH="${{ steps.branch.outputs.name }}"
           git add .
           git commit -m "feat(content): create talk content for issue #${{ github.event.issue.number }}"
           git push origin "$BRANCH"
@@ -132,7 +134,7 @@ jobs:
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token || secrets.GITHUB_TOKEN }}
         run: |
-          BRANCH=$(cat branchname.txt)
+          BRANCH="${{ steps.branch.outputs.name }}"
           SLUG="${{ steps.slug.outputs.slug }}"
           cat > pr_body.md <<'EOF'
           Auto-generated PR corresponding to approved issue #${{ github.event.issue.number }}.
@@ -147,7 +149,7 @@ jobs:
           EOF
 
           gh pr create \
-            --title "feat(content): ${SLUG}" \
+            --title "feat(content): Add ${SLUG}.md" \
             --body-file pr_body.md \
             --base main \
             --head "$BRANCH" \
@@ -158,7 +160,7 @@ jobs:
       #   env:
       #     GH_TOKEN: ${{ steps.app-token.outputs.token || secrets.GITHUB_TOKEN }}
       #   run: |
-      #     BRANCH=$(cat branchname.txt)
+      #     BRANCH="${{ steps.branch.outputs.name }}"
 
       #     # Get PR number for this branch
       #     PR_NUMBER=$(gh pr list --head "$BRANCH" --json number --jq '.[0].number')

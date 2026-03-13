@@ -25,12 +25,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      - name: Create new branch
-        run: |
-          BRANCH="issue-${{ github.event.issue.number }}-generated"
-          git checkout -b "$BRANCH"
-          echo "$BRANCH" > branchname.txt
-
       - name: Extract form fields from Issue body
         id: form
         uses: actions/github-script@v7
@@ -63,10 +57,52 @@ jobs:
               core.setOutput(k, v);
             }
 
+      - name: Generate slug from talk title
+        id: slug
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = core.getInput('title') || `${{ steps.form.outputs.talk_title }}`;
+            if (!title || title.trim() === "") {
+              core.setOutput("slug", `issue-${{ github.event.issue.number }}`);
+              return;
+            }
+
+            // Take first 3 words only
+            const first3 = title
+              .trim()
+              .split(/\s+/)
+              .slice(0, 3)
+              .join(' ');
+
+            // Slugify:
+            // - lowercase
+            // - strip punctuation
+            // - replace non alphanumerics with hyphens
+            // - collapse repeated hyphens
+            // - trim hyphens
+            let slug = first3
+              .normalize("NFKD").replace(/[\u0300-\u036f]/g, "")   // strip accents
+              .toLowerCase()
+              .replace(/&/g, " and ")
+              .replace(/[^a-z0-9]+/g, "-")
+              .replace(/-{2,}/g, "-")
+              .replace(/^-+|-+$/g, "");
+
+            if (!slug) slug = `issue-${{ github.event.issue.number }}`;
+
+            core.setOutput("slug", slug);
+
+      - name: Create new branch
+        run: |
+          SLUG="${{ steps.slug.outputs.slug }}"
+          BRANCH="${SLUG}-${{ github.event.issue.number }}"
+          git checkout -b "$BRANCH
 
       - name: Create file from issue details
         run: |
-          FILE="talk-${{ github.event.issue.number }}.md"
+          SLUG="${{ steps.slug.outputs.slug }}"
+          FILE="talk-${SLUG}.md"
           cat <<'EOF' > "$FILE"
           ---
           title: ${{ steps.form.outputs.talk_title }}
@@ -92,10 +128,12 @@ jobs:
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
 
-
-      - name: Build PR body
+      - name: Create pull request
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token || secrets.GITHUB_TOKEN }}
         run: |
           BRANCH=$(cat branchname.txt)
+          SLUG="${{ steps.slug.outputs.slug }}"
           cat > pr_body.md <<'EOF'
           Auto-generated PR corresponding to approved issue #${{ github.event.issue.number }}.
 
@@ -103,21 +141,18 @@ jobs:
           **Speaker Pronouns:** ${{ steps.form.outputs.speaker_pronouns }}
           **Talk Title:** ${{ steps.form.outputs.talk_title }}
           **Talk Date:** ${{ steps.form.outputs.talk_date }}
+
           **Talk Abstract:**
           ${{ steps.form.outputs.talk_abstract }}
           EOF
 
-      - name: Create pull request
-        env:
-          GH_TOKEN: ${{ steps.app-token.outputs.token || secrets.GITHUB_TOKEN }}
-        run: |
-          BRANCH=$(cat branchname.txt)
           gh pr create \
-            --title "feat(content): Add Talk #${{ github.event.issue.number }}" \
+            --title "feat(content): ${SLUG}" \
             --body-file pr_body.md \
             --base main \
             --head "$BRANCH" \
             --label "Talk Request"
+
 
       # - name: Request team reviewers
       #   env:

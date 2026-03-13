@@ -38,14 +38,15 @@ jobs:
           script: |
             const body = context.payload.issue?.body ?? '';
 
-            // Generic section extractor: gets text after "### <Label>" until next "###" or end.
+            // Proper escaping (no &amp;, real backslashes)
             function getSection(label) {
-              const re = new RegExp(
-                `(^|\\n)###\\s+${label.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\$&')}\\s*\\n+([\\s\\S]*?)(?=\\n###\\s+|$)`,
+              const escaped = label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+              const regex = new RegExp(
+                `(^|\\n)###\\s+${escaped}\\s*\\n+([\\s\\S]*?)(?=\\n###\\s+|$)`,
                 'i'
               );
-              const m = body.match(re);
-              return m ? m[2].trim() : '';
+              const match = body.match(regex);
+              return match ? match[2].trim() : '';
             }
 
             const fields = {
@@ -56,22 +57,25 @@ jobs:
               talk_abstract:     getSection('Talk Abstract'),
             };
 
-            for (const [k,v] of Object.entries(fields)) {
+            console.log("Extracted fields:", fields);
+
+            for (const [k, v] of Object.entries(fields)) {
               core.setOutput(k, v);
             }
+
 
       - name: Create file from issue details
         run: |
           FILE="talk-${{ github.event.issue.number }}.md"
-          {
-            echo "---"
-            echo "title: ${{ steps.form.outputs.talk_title }}"
-            echo "speaker: ${{ steps.form.outputs.speaker_name }}"
-            echo "pronouns: ${{ steps.form.outputs.speaker_pronouns }}"
-            echo "date: ${{ steps.form.outputs.talk_date }}"
-            echo "---"
-            echo "${{ steps.form.outputs.talk_abstract }}"
-          } > "$FILE"
+          cat <<'EOF' > "$FILE"
+          ---
+          title: ${{ steps.form.outputs.talk_title }}
+          speaker: ${{ steps.form.outputs.speaker_name }}
+          pronouns: ${{ steps.form.outputs.speaker_pronouns }}
+          date: ${{ steps.form.outputs.talk_date }}
+          ---
+          ${{ steps.form.outputs.talk_abstract }}
+          EOF
 
       - name: Commit changes
         run: |
@@ -88,6 +92,21 @@ jobs:
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
 
+
+      - name: Build PR body
+        run: |
+          BRANCH=$(cat branchname.txt)
+          cat > pr_body.md <<'EOF'
+          Auto-generated PR corresponding to approved issue #${{ github.event.issue.number }}.
+
+          **Speaker Name:** ${{ steps.form.outputs.speaker_name }}
+          **Speaker Pronouns:** ${{ steps.form.outputs.speaker_pronouns }}
+          **Talk Title:** ${{ steps.form.outputs.talk_title }}
+          **Talk Date:** ${{ steps.form.outputs.talk_date }}
+          **Talk Abstract:**
+          ${{ steps.form.outputs.talk_abstract }}
+          EOF
+
       - name: Create pull request
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token || secrets.GITHUB_TOKEN }}
@@ -95,17 +114,25 @@ jobs:
           BRANCH=$(cat branchname.txt)
           gh pr create \
             --title "feat(content): Add Talk #${{ github.event.issue.number }}" \
-            --body "
-            Auto-generated PR corresponding to approved issue #${{ github.event.issue.number }}.
-
-            Speaker Name: ${{ steps.form.outputs.speaker_name }}
-            Speaker Pronouns: ${{ steps.form.outputs.speaker_pronouns }}
-            Talk Title: ${{ steps.form.outputs.talk_title }}
-            Talk Date: ${{ steps.form.outputs.talk_date }}
-            Talk Abstract: ${{ steps.form.outputs.talk_abstract }}
-            " \
+            --body-file pr_body.md \
             --base main \
             --head "$BRANCH" \
-            --reviewer jcornall \
             --label "Talk Request"
+
+      # - name: Request team reviewers
+      #   env:
+      #     GH_TOKEN: ${{ steps.app-token.outputs.token || secrets.GITHUB_TOKEN }}
+      #   run: |
+      #     BRANCH=$(cat branchname.txt)
+
+      #     # Get PR number for this branch
+      #     PR_NUMBER=$(gh pr list --head "$BRANCH" --json number --jq '.[0].number')
+
+      #     echo "Requesting team reviewers for PR #$PR_NUMBER"
+
+      #     # Send API request to add the team
+      #     gh api \
+      #       --method POST \
+      #       repos/${{ github.repository }}/pulls/$PR_NUMBER/requested_reviewers \
+      #       --field team_reviewers='["ec-code-club-committee"]'
 

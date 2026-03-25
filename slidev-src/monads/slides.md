@@ -63,7 +63,7 @@ much better
 
 # the problem
 
-so things go wrong when processing stuff. values might be missing and you need to handle it. you might do this:
+so things go wrong when processing stuff and you might do this:
 
 <v-click>
 
@@ -84,7 +84,11 @@ if user is not None:
 <div class="mt-4" style="color: #d4639a">
 
 
-this is four levels of nesting for three functions where everything needs checking and aaaaaaa
+this is four levels of nesting for three functions
+
+where everything needs checking
+
+and aaaaaaa
 
 this is horrible and i hate it and you should too.
 
@@ -129,7 +133,7 @@ Maybe(42).bind(get_user).bind(get_address).bind(get_postcode)
 
 <div style="color: #d4639a">
 
-the box handles everything and we don't have to think about it. yay :3
+the box handles everything and we don't have to think about it. yay \:3
 
 </div>
 
@@ -139,7 +143,7 @@ the box handles everything and we don't have to think about it. yay :3
 
 # more monads! the Result monad
 
-ok so Maybe has a problem: when something goes wrong it just goes empty. doesn't tell you *why*. this is annoying, so Result fixes this.
+ok so Maybe has a problem: when something goes wrong it just goes empty and doesn't tell you *why*. this is annoying, so Result fixes this.
 
 <v-click>
 
@@ -243,16 +247,6 @@ List([1, 2, 3]).bind(expand)
 
 </v-click>
 
-<v-click>
-
-<div class="mt-4" style="color: #9b72cf">
-
-Maybe handles missing values while List handles multiple values
-
-</div>
-
-</v-click>
-
 ---
 layout: center
 ---
@@ -278,7 +272,7 @@ each <code>for</code> is a bind. that's the List monad!
 
 # the pattern
 
-right, so what do these have in common?
+what do these have in common?
 
 <v-clicks>
 
@@ -347,6 +341,8 @@ results = List(files).bind(process)
 ```
 
 <img src="./images/tea.jpeg" class="absolute bottom-8 right-12 h-28 rounded" />
+
+</v-click>
 
 ---
 
@@ -478,8 +474,8 @@ Haskell only has functions and values, it doesn't have any mutable state. No var
 
 - need to read a file? **IO monad**
 - need to track state? **State monad**
-- need randomness? state in a box
-- need to print? that's IO. **monad too**
+- need randomness? **State monad**
+- need to print? **IO monad**
 
 </v-clicks>
 
@@ -487,7 +483,7 @@ Haskell only has functions and values, it doesn't have any mutable state. No var
 
 <div class="mt-4" style="color: #d4639a">
 
-monads all the way down :o
+monads all the way down \:o
 
 **(this is why i thought last week's code club challenge was unfair btw imagine doing python without variables)**
 
@@ -507,7 +503,7 @@ monads all the way down :o
 
 ---
 
-# functors! :o
+# functors! \:o
 
 remember this?
 
@@ -555,7 +551,7 @@ a **monoid** is something with an identity and an associative operation (that's 
 
 <div class="mt-4" style="color: #d4639a">
 
-a monad is a monoid in the category of endofunctors yayyy :3
+a monad is a monoid in the category of endofunctors yayyy \:3
 
 
 </div>

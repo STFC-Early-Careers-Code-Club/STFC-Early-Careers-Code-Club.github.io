@@ -244,7 +244,7 @@ columns: is-7
 
 :: right ::
 
-<img src="./images/jinja-name.svg" />
+<img src="./images/jinja-name.svg" style="background-color: white; padding: 1rem;" />
 
 <br>
 

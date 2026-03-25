@@ -1,6 +1,6 @@
 ---
 title: Graphs: Ruining the Travelling Salesman’s Day Since 1930
-speaker: Harry Swidft
+speaker: Harry Swift
 pronouns: _No response_
 date: 2026-03-18
 ---

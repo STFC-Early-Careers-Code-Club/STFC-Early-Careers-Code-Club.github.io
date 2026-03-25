@@ -169,5 +169,5 @@ jobs:
           gh api \
             --method POST \
             repos/${{ github.repository }}/pulls/$PR_NUMBER/requested_reviewers \
-            --raw-field team_reviewers='["ec-code-club-committee"]'
+            -f team_reviewers[]=ec-code-club-committee
 

@@ -1,7 +1,8 @@
 ---
-title: Graphs: Ruining the Travelling Salesman’s Day Since 1930
+title: "Graphs: Ruining the Travelling Salesman's Day Since 1930"
 speaker: Harry Swift
 date: 2026-03-18
+imgUrl: /images/graph-theory.png
 description: A tour of graph algorithms and classic problems in computer science, from traversal and shortest paths to the Travelling Salesman Problem.
 ---
 

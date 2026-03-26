@@ -114,8 +114,8 @@ class Maybe:
 
     def bind(self, func):
         if self.value is None:
-            return Maybe(None)    # empty? skip it
-        return func(self.value)   # otherwise, run the function
+            return Maybe(None)
+        return Maybe(func(self.value))
 ```
 
 </v-click>
@@ -123,7 +123,6 @@ class Maybe:
 <v-click>
 
 ```python
-# Same example as before but now the box handles the None checks
 Maybe(42).bind(get_user).bind(get_address).bind(get_postcode)
 ```
 
@@ -158,8 +157,11 @@ two states:
 ```python
 def bind(self, func):
     if self.is_err:
-        return self               # failed? carry the error forward
-    return func(self.value)       # otherwise, keep going
+        return self
+    try:
+        return Result(func(self.value))
+    except Exception as e:
+        return Result.err(str(e))
 ```
 
 </v-click>
@@ -201,12 +203,12 @@ if data is not None:
 with Result:
 
 ```python
-result = (Result.ok("readings.csv")
+result = (Result("readings.csv")
     .bind(read_csv)
     .bind(lambda d: parse_floats(d, "temperature"))
     .bind(remove_outliers)
     .bind(mean))
-# Ok(23.4) or Err("column 'temperature' contains non-numeric values")
+# Result(23.4) or Err("column 'temperature' contains non-numeric values")
 ```
 
 <img src="./images/frieren.jpg" class="absolute bottom-4 right-20 h-32 rounded" />
@@ -229,7 +231,7 @@ class List:
     def bind(self, func):
         result = []
         for item in self.values:
-            result.extend(func(item))   # apply, then flatten
+            result.extend(func(item).values)  # apply, then flatten
         return List(result)
 ```
 
@@ -308,7 +310,7 @@ ok what makes a box a *monad* and not just a box?
 
 <v-clicks>
 
-1. **left identity:** `Maybe(a).bind(f)` = `f(a)`
+1. **left identity:** `Maybe(a).bind(f)` = `Maybe(f(a))`
    - putting a value in a box and immediately using it should be the same as just using it.
 
 2. **right identity:** `m.bind(Maybe)` = `m`
@@ -331,13 +333,13 @@ what if you have multiple files and each one might fail?
 files = ["data1.csv", "data2.csv", "data3.csv"]
 
 def process(filename):
-    return (Result.ok(filename)
+    return (Result(filename)
         .bind(read_csv)
         .bind(lambda d: parse_floats(d, "temperature"))
         .bind(mean))
 
-results = List(files).bind(process)
-# [Ok(23.4), Err("file not found: data2.csv"), Ok(19.1)]
+results = List(files).map(process)
+# List([Ok(23.4), Err("file not found: data2.csv"), Ok(19.1)])
 ```
 
 <img src="./images/tea.jpeg" class="absolute bottom-8 right-12 h-28 rounded" />
@@ -381,7 +383,7 @@ class Maybe:
     def bind(self, func):
         if self.value is None:
             return Maybe(None)
-        return func(self.value)
+        return Maybe(func(self.value))
 ```
 
 </div>
@@ -410,7 +412,7 @@ class AsyncLoggedValidatedCSVReader(LoggedValidatedCSVReader):  # OH NO
 monads compose through **chaining**, not inheritance.
 
 ```python
-Result.ok("data.csv").bind(read_csv).bind(validate).bind(log)
+Result("data.csv").bind(read_csv).bind(validate).bind(log)
 ```
 
 no `AsyncLoggedValidatedSafeCSVReaderFactory`.

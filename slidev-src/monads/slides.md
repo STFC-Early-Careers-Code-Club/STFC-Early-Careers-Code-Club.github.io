@@ -316,7 +316,7 @@ ok what makes a box a *monad* and not just a box?
 2. **right identity:** `m.bind(Maybe)` = `m`
    - if all you do is re-wrap the value, nothing changes
 
-3. **associativity:** `m.bind(f).bind(g)` = `m.bind(lambda x: f(x).bind(g))`
+3. **associativity:** `m.bind(f).bind(g)` = `m.bind(f ∘ g)`
    - it doesn't matter how you group a chain of operations
 
 </v-clicks>

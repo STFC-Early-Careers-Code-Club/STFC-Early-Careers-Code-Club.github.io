@@ -115,7 +115,7 @@ class Maybe:
     def bind(self, func):
         if self.value is None:
             return Maybe(None)
-        return Maybe(func(self.value))
+        return func(self.value)       # func returns a Maybe
 ```
 
 </v-click>
@@ -123,6 +123,7 @@ class Maybe:
 <v-click>
 
 ```python
+# get_user etc. now return Maybe(...) or Maybe(None)
 Maybe(42).bind(get_user).bind(get_address).bind(get_postcode)
 ```
 
@@ -158,10 +159,7 @@ two states:
 def bind(self, func):
     if self.is_err:
         return self
-    try:
-        return Result(func(self.value))
-    except Exception as e:
-        return Result.err(str(e))
+    return func(self.value)           # func returns a Result
 ```
 
 </v-click>
@@ -310,13 +308,13 @@ ok what makes a box a *monad* and not just a box?
 
 <v-clicks>
 
-1. **left identity:** `Maybe(a).bind(f)` = `Maybe(f(a))`
+1. **left identity:** `Maybe(a).bind(f)` = `f(a)`
    - putting a value in a box and immediately using it should be the same as just using it.
 
 2. **right identity:** `m.bind(Maybe)` = `m`
    - if all you do is re-wrap the value, nothing changes
 
-3. **associativity:** `m.bind(f).bind(g)` = `m.bind(f ∘ g)`
+3. **associativity:** `m.bind(f).bind(g)` = `m.bind(lambda x: f(x).bind(g))`
    - it doesn't matter how you group a chain of operations
 
 </v-clicks>
@@ -383,7 +381,7 @@ class Maybe:
     def bind(self, func):
         if self.value is None:
             return Maybe(None)
-        return Maybe(func(self.value))
+        return func(self.value)
 ```
 
 </div>

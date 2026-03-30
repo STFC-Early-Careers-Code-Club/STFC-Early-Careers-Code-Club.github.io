@@ -432,25 +432,15 @@ hideInToc: true
 
 # STOP DOING INHERITANCE
 
-<v-click>
-
 <div class="text-xl mt-8 opacity-80">
 
 THOUSANDS OF YEARS OF OOP AND NO REAL WORLD USE FOUND FOR `AbstractSingletonProxyFactoryBean`
 
-</div>
-
-</v-click>
-
-<v-click>
-
-<div class="text-xl mt-4 opacity-80">
-
-WANTED YOUR CSV READER TO ALSO LOG? THAT'LL BE FOUR SUBCLASSES. COME TO YOUR SENSES
+WANTED YOUR `NonGravitationalParticleMover` TO ALSO LOG? THAT'LL BE FOUR SUBCLASSES PLEASE.
 
 </div>
 
-</v-click>
+
 
 </div>
 

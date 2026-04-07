@@ -6,13 +6,9 @@ description: An introduction to the differences between imperative and declarati
 
 Topics:
 
-- HTML
-- Regular Expressions
-- JSON Schema
-- NixOS
-- Docker Compose
 - Iterators and Higher-Order Functions
+- Regular Expressions
 - Vue.js
+- Docker Compose
 - Terraform
-- Kubernetes
-- OpenAPI
+- NixOS

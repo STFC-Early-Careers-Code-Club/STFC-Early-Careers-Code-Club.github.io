@@ -20,3 +20,6 @@ In this talk, the following are covered:
 - Shortest path algorithms and their applications
 - Classic optimisation problems including the Travelling Salesman Problem
 - Why some graph problems are computationally difficult
+
+::slidev{name="graph-theory"}
+::

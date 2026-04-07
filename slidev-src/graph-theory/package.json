@@ -1,0 +1,22 @@
+{
+  "name": "graph-theory",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "slidev build",
+    "dev": "slidev --open",
+    "export": "slidev export"
+  },
+  "dependencies": {
+    "@slidev/cli": "^52.9.1",
+    "@slidev/theme-apple-basic": "^0.25.1",
+    "@slidev/theme-default": "latest",
+    "@slidev/theme-seriph": "latest",
+    "slidev-theme-dracula": "^0.2.0",
+    "slidev-theme-nord": "^0.0.6",
+    "vue": "^3.5.29"
+  },
+  "devDependencies": {
+    "playwright-chromium": "^1.58.2"
+  }
+}

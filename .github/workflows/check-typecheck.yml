@@ -1,4 +1,4 @@
-name: Slidev Source Check
+name: Type Check
 
 on:
   pull_request:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  validate-slides:
+  typecheck:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code

@@ -6,3 +6,4 @@ description: A talk on the Liskov Substitution Principle, the third of the SOLID
 ---
 
 ::slidev{name="liskov-substitution-principle"}
+::

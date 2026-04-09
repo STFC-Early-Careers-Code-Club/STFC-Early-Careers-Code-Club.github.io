@@ -4,7 +4,7 @@ speaker: Harry Swift
 date: 2026-03-18
 imgUrl: /images/graph-theory.png
 description: A tour of graph algorithms and classic problems in computer science, from traversal and shortest paths to the Travelling Salesman Problem.
-recordingUrl: https://stfc365-my.sharepoint.com/personal/ashraf_hussain_stfc_ac_uk/_layouts/15/embed.aspx?UniqueId=63f202b3-c8a8-4233-b303-fad2b6b26464&embed=%7B%22ust%22%3Afalse%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create
+recordingUrl: https://stfc365-my.sharepoint.com/personal/ashraf_hussain_stfc_ac_uk/_layouts/15/embed.aspx?UniqueId=71184302-9c1e-45da-9247-f076347e13be&embed=%7B%22ust%22%3Atrue%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create
 ---
 
 Graphs are one of the most widely used abstractions in computer science. By representing systems as nodes connected by edges, they provide a powerful way to model relationships between objects and reason about complex problems in a structured way.

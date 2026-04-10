@@ -1,5 +1,5 @@
 {
-  "name": "liskov-substitution-principle",
+  "name": "single-responsibility-principle",
   "type": "module",
   "private": true,
   "scripts": {

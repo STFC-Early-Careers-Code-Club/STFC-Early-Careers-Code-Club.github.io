@@ -17,8 +17,6 @@ transition: fade-out
 mdc: true
 layout: cover
 hideInToc: true
-
-download: true
 ---
 
 # what the hell is a monad?

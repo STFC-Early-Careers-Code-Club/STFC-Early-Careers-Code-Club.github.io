@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@iconify-json/ph": "^1.2.2",
-    "@slidev/cli": "^51.0.0",
+    "@slidev/cli": "^52.2.5",
     "@slidev/theme-default": "latest"
   }
 }

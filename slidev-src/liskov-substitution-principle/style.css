@@ -62,11 +62,6 @@ h1, h2, h3, h4, h5, h6 {
   background-color: #06b6d4 !important;
 }
 
-/* Hide the Goto dialog overflow */
-#slidev-goto-dialog {
-  display: none !important;
-}
-
 /* Image layout adjustments for dark theme */
 .slidev-layout.image-right,
 .slidev-layout.image-left {

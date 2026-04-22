@@ -1,14 +1,9 @@
 ---
 title: Everything as a Specification
 speaker: George Roe
+date: 2026-04-22
 description: An introduction to the differences between imperative and declarative approaches, showing how describing desired outcomes can replace step-by-step instructions.
+imgUrl: /images/blueprint.jpg
 ---
 
-Topics:
-
-- Iterators and Higher-Order Functions
-- Regular Expressions
-- Vue.js
-- Docker Compose
-- Terraform
-- NixOS
+::slidev{name="everything-as-a-specification"}

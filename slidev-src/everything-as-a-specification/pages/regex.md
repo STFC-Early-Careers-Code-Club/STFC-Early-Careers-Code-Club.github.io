@@ -23,7 +23,7 @@ layout: section
 
 # Turns Out its a Not-So-Simple Email Validation Input Box
 
-<div class="h-[30vh] overflow-scroll pr-4">
+<div class="max-h-90 overflow-scroll pr-4 rounded">
 
 <<< @/utils/validateEmailManually.ts ts
 

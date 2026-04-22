@@ -156,6 +156,10 @@ jobs:
           **Talk Date:** ${{ steps.form.outputs.talk_date }}
           **Talk Abstract:**
           ${{ steps.clean.outputs.clean_abstract }}
+
+          ---
+
+          Closes #${{ github.event.issue.number }}
           EOF
 
           gh pr create \

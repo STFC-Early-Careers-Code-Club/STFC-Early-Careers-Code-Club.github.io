@@ -1,7 +1,6 @@
 ---
 title: What the hell is a Monad?
 speaker: Willow Sparks
-pronouns: she/her
 date: 2026-04-01
 imgUrl: /images/monads.png
 recordingUrl: https://stfc365-my.sharepoint.com/personal/ashraf_hussain_stfc_ac_uk/_layouts/15/embed.aspx?UniqueId=7ac2677e-f0fd-44a3-85b0-cd25815151d1&embed=%7B%22ust%22%3Atrue%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create

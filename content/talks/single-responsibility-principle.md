@@ -1,7 +1,7 @@
 ---
 title: The Single Responsibility Principle
 speaker: Ashraf Hussain
-date: 2025-10-01
+date: 2025-09-24
 imgUrl: /images/srp.png
 isImgLogo: true
 imgClass: bg-[#F4F0E5]

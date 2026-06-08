@@ -1,5 +1,5 @@
 ---
-title: "😀 🔤Hello World!🔤❗️": The Weird World of Esolangs
+title: "\"😀 🔤Hello World!🔤❗️\": The Weird World of Esolangs"
 speaker: James Cornall
 pronouns: he/him
 date: 2026-06-10

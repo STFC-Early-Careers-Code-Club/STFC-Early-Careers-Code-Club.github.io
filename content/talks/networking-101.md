@@ -7,3 +7,6 @@ recordingUrl: https://stfc365-my.sharepoint.com/personal/ashraf_hussain_stfc_ac_
 ---
 
 An intro to computer networking and a tour of the heart of the DL network.
+
+::pdf{url="/talk-assets/networking-101/presentation.pdf"}
+::
